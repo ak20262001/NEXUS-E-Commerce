@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOAK - Toko Online Serba Ada</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Inisialisasi Tema sebelum konten dimuat untuk mencegah kedipan putih (flash)
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Animasi transisi sidebar */
+        .cart-open #cart-sidebar { transform: translateX(0); }
+        .cart-open #cart-overlay { display: block; opacity: 1; }
+
+        /* Smooth transition untuk switch tema di seluruh elemen */
+        .theme-transition, .theme-transition *, .theme-transition *:before, .theme-transition *:after {
+            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, fill 0.4s ease !important;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 dark:bg-black dark:text-gray-200 transition-colors duration-500 theme-transition">
+
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-40 bg-white dark:bg-black shadow-sm border-b border-gray-100 dark:border-gray-800 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg">
+                        <i class="fa-solid fa-shop"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-blue-900 dark:text-blue-400">TOAK</span>
+                </div>
+
+                <!-- Desktop Search -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <input type="text" id="search-input" placeholder="Cari barang apa hari ini?" 
+                            class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-black transition-all text-sm dark:text-white">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 md:gap-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-xl transition-all duration-300 flex items-center justify-center">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg hidden"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg hidden"></i>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button id="cart-btn" class="relative p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 transition duration-200">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Search -->
+    <div class="md:hidden bg-white dark:bg-black px-4 py-4 border-b border-gray-100 dark:border-gray-800">
+        <div class="relative w-full">
+            <input type="text" id="search-input-mobile" placeholder="Cari barang..." 
+                class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-black transition-all text-sm dark:text-white">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400"></i>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">Katalog Elektronik Terlengkap</h1>
+            <p class="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">Pesan barang impianmu hari ini dan nikmati pengiriman kilat ke seluruh Indonesia.</p>
+            <a href="#products" class="bg-white text-blue-700 px-8 py-3 rounded-full font-bold hover:shadow-xl transition-all transform hover:-translate-y-1 inline-block">Mulai Belanja</a>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="products">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Katalog Barang</h2>
+            
+            <div class="flex gap-2 w-full md:w-auto">
+                <select id="sort-filter" class="bg-white dark:bg-black dark:text-white border border-gray-200 dark:border-gray-800 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500">
+                    <option value="default">Default</option>
+                    <option value="price-asc">Harga: Termurah</option>
+                    <option value="price-desc">Harga: Termahal</option>
+                    <option value="newest">Waktu: Terbaru</option>
+                    <option value="oldest">Waktu: Terlama</option>
+                </select>
+
+                <select id="category-filter" class="bg-white dark:bg-black dark:text-white border border-gray-200 dark:border-gray-800 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500">
+                    <option value="all">Semua Kategori</option>
+                    <option value="laptop">Laptop</option>
+                    <option value="phone">Handphone</option>
+                    <option value="audio">Audio</option>
+                    <option value="camera">Kamera</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="loading" class="flex justify-center py-20">
+            <div class="loader"></div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 hidden">
+            <!-- Products injected here -->
+        </div>
+        
+        <div id="empty-state" class="hidden text-center py-20 bg-white dark:bg-black rounded-2xl border border-dashed border-gray-300 dark:border-gray-800">
+            <i class="fa-solid fa-search text-5xl text-gray-200 dark:text-gray-800 mb-4"></i>
+            <p class="text-gray-500 dark:text-gray-400">Barang tidak ditemukan. Coba kata kunci lain.</p>
+            <button onclick="resetFilters()" class="mt-4 text-blue-600 font-semibold">Reset Filter</button>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-100 dark:bg-black text-gray-600 dark:text-gray-400 py-12 border-t border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">© 2026 TOAK E-Commerce. Belanja Amanah & Terpercaya.</p>
+            <div class="flex justify-center gap-4 text-xl">
+                <i class="fa-brands fa-instagram hover:text-blue-600 cursor-pointer transition-colors"></i>
+                <i class="fa-brands fa-whatsapp hover:text-blue-600 cursor-pointer transition-colors"></i>
+                <i class="fa-brands fa-facebook hover:text-blue-600 cursor-pointer transition-colors"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    
+    <div id="cart-sidebar" class="fixed inset-y-0 right-0 max-w-md w-full bg-white dark:bg-black shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col theme-transition">
+        <div class="p-6 border-b dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
+            <h2 class="text-xl font-bold flex items-center gap-2 dark:text-white">
+                <i class="fa-solid fa-cart-shopping text-blue-600"></i> Keranjang Anda
+            </h2>
+            <button id="close-cart" class="text-gray-400 hover:text-red-500 transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- Cart Items injected here -->
+        </div>
+
+        <div class="p-6 border-t dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-gray-600 dark:text-gray-400 font-medium">Total Pembayaran:</span>
+                <span id="cart-total" class="text-2xl font-black text-blue-700 dark:text-blue-400">Rp 0</span>
+            </div>
+            <button id="checkout-btn" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-800 transition-all shadow-lg active:scale-95" disabled>
+                Proses Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-blue-600 text-white px-8 py-4 rounded-2xl shadow-2xl transition-all duration-300 translate-y-32 opacity-0 z-50 flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span id="toast-msg">Barang ditambahkan!</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let products = [];
+        let cart = [];
+        let searchQuery = '';
+        let currentCategory = 'all';
+        let currentSort = 'default';
+
+        // --- DARK MODE LOGIC ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        const updateThemeUI = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+            }
+        };
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDarkModeNow = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDarkModeNow ? 'dark' : 'light');
+            updateThemeUI();
+        });
+
+        updateThemeUI();
+
+        // --- DATA & FIREBASE LOGIC ---
+        const INITIAL_PRODUCTS = [
+            { name: "Laptop ASUS VivoBook", price: 8500000, category: "laptop", image: "https://placehold.co/400x300/3b82f6/white?text=ASUS+VivoBook", createdAt: Date.now() },
+            { name: "iPhone 15 Pro Max", price: 24999000, category: "phone", image: "https://placehold.co/400x300/111/white?text=iPhone+15", createdAt: Date.now() - 5000 },
+            { name: "Sony WH-CH520", price: 750000, category: "audio", image: "https://placehold.co/400x300/333/white?text=Sony+Audio", createdAt: Date.now() - 10000 },
+            { name: "Fujifilm X-T5", price: 26000000, category: "camera", image: "https://placehold.co/400x300/444/white?text=Fujifilm+Camera", createdAt: Date.now() - 15000 },
+            { name: "MacBook Pro M3", price: 28999000, category: "laptop", image: "https://placehold.co/400x300/666/white?text=MacBook+M3", createdAt: Date.now() - 20000 },
+            { name: "Samsung Galaxy S24", price: 15499000, category: "phone", image: "https://placehold.co/400x300/777/white?text=Samsung+S24", createdAt: Date.now() - 25000 }
+        ];
+
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (e) { console.error("Auth Fail", e); }
+        };
+
+        const setupData = () => {
+            const prodRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+            onSnapshot(query(prodRef), (snap) => {
+                if (snap.empty) {
+                    INITIAL_PRODUCTS.forEach(p => addDoc(prodRef, p));
+                    return;
+                }
+                products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                document.getElementById('loading').classList.add('hidden');
+                updateUI();
+            });
+        };
+
+        const formatIDR = (val) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
+
+        const updateUI = () => {
+            let filtered = [...products];
+
+            if (searchQuery) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            }
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            filtered.sort((a, b) => {
+                switch (currentSort) {
+                    case 'price-asc': return a.price - b.price;
+                    case 'price-desc': return b.price - a.price;
+                    case 'newest': return b.createdAt - a.createdAt;
+                    case 'oldest': return a.createdAt - b.createdAt;
+                    default: return b.createdAt - a.createdAt; // Default to newest
+                }
+            });
+
+            const grid = document.getElementById('product-grid');
+            const empty = document.getElementById('empty-state');
+            
+            grid.innerHTML = '';
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                empty.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                empty.classList.add('hidden');
+                filtered.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col group hover:shadow-xl transition-all h-full theme-transition";
+                    card.innerHTML = `
+                        <div class="h-48 bg-gray-100 dark:bg-gray-900 overflow-hidden relative">
+                            <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-white/90 dark:bg-black/90 px-2 py-1 rounded-md text-[10px] font-bold uppercase text-gray-600 dark:text-gray-400">${p.category}</span>
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <h3 class="font-bold text-gray-800 dark:text-white mb-2 line-clamp-2">${p.name}</h3>
+                            <p class="text-blue-700 dark:text-blue-400 font-extrabold text-lg mb-4">${formatIDR(p.price)}</p>
+                            <button onclick="addToCart('${p.id}')" class="mt-auto w-full bg-gray-900 dark:bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors font-bold flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        };
+
+        // --- CART ACTIONS ---
+        window.addToCart = (id) => {
+            const item = products.find(p => p.id === id);
+            const inCart = cart.find(c => c.id === id);
+            
+            if (inCart) {
+                inCart.qty++;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            
+            renderCart();
+            showToast(`"${item.name}" ditambahkan`);
+        };
+
+        window.changeQty = (id, delta) => {
+            const idx = cart.findIndex(c => c.id === id);
+            if (idx === -1) return;
+            
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            renderCart();
+        };
+
+        window.removeFromCart = (id) => {
+            cart = cart.filter(c => c.id !== id);
+            renderCart();
+        };
+
+        const renderCart = () => {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const badge = document.getElementById('cart-count');
+            const checkout = document.getElementById('checkout-btn');
+
+            const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+            const totalPrice = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+
+            badge.innerText = totalQty;
+            badge.style.transform = totalQty > 0 ? 'scale(1)' : 'scale(0)';
+            totalEl.innerText = formatIDR(totalPrice);
+            checkout.disabled = cart.length === 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 text-center">
+                        <i class="fa-solid fa-basket-shopping text-7xl mb-6 text-gray-100 dark:text-gray-800"></i>
+                        <p class="text-lg">Keranjang belanja Anda masih kosong.</p>
+                        <button onclick="document.getElementById('close-cart').click()" class="mt-4 text-blue-600 font-bold hover:underline">Ayo Belanja!</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "flex gap-4 items-center bg-white dark:bg-black p-3 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm theme-transition";
+                div.innerHTML = `
+                    <img src="${item.image}" class="w-16 h-16 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-gray-800 dark:text-white line-clamp-1">${item.name}</h4>
+                        <p class="text-xs text-blue-700 dark:text-blue-400 font-bold">${formatIDR(item.price)}</p>
+                    </div>
+                    <div class="flex flex-col items-end gap-2">
+                        <button onclick="removeFromCart('${item.id}')" class="text-gray-300 dark:text-gray-600 hover:text-red-500 transition-colors">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                        <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-900 border dark:border-gray-800 rounded-lg px-2 py-1">
+                            <button onclick="changeQty('${item.id}', -1)" class="w-6 text-gray-400 hover:text-blue-600 font-bold">-</button>
+                            <span class="text-xs font-black dark:text-white w-4 text-center">${item.qty}</span>
+                            <button onclick="changeQty('${item.id}', 1)" class="w-6 text-gray-400 hover:text-blue-600 font-bold">+</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        };
+
+        const showToast = (msg) => {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toast-msg');
+            if (m) m.innerText = msg;
+            t.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-32', 'opacity-0'), 2500);
+        };
+
+        window.resetFilters = () => {
+            searchQuery = '';
+            currentCategory = 'all';
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-input-mobile').value = '';
+            document.getElementById('category-filter').value = 'all';
+            updateUI();
+        };
+
+        // --- GLOBAL EVENTS ---
+        document.getElementById('cart-btn').onclick = () => document.body.classList.add('cart-open');
+        document.getElementById('close-cart').onclick = () => document.body.classList.remove('cart-open');
+        document.getElementById('cart-overlay').onclick = () => document.body.classList.remove('cart-open');
+        
+        document.getElementById('search-input').oninput = (e) => { searchQuery = e.target.value; updateUI(); };
+        document.getElementById('search-input-mobile').oninput = (e) => { searchQuery = e.target.value; updateUI(); };
+        document.getElementById('category-filter').onchange = (e) => { currentCategory = e.target.value; updateUI(); };
+        document.getElementById('sort-filter').onchange = (e) => { currentSort = e.target.value; updateUI(); };
+
+        document.getElementById('checkout-btn').onclick = () => {
+            alert(`Pesanan Anda sebesar ${formatIDR(cart.reduce((s, i) => s + (i.price * i.qty), 0))} sedang diproses!`);
+            cart = [];
+            renderCart();
+            document.body.classList.remove('cart-open');
+        };
+
+        initAuth().then(setupData);
+    </script>
+</body>
+</html>
