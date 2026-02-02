@@ -1,0 +1,225 @@
+# ============================================
+# NEXUS RETAIL - GIT IGNORE CONFIGURATION
+# ============================================
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# IDE & Editor
+.vscode/
+.idea/
+.DS_Store
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.swp
+.swo
+*~
+.vim
+
+# OS
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Build Output
+dist/
+build/
+.nuxt/
+coverage/
+.cache/
+.parcel-cache
+
+# Testing
+.nyc_output/
+test-results/
+cypress/screenshots/
+cypress/videos/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Optional npm cache
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment files
+.env*.local
+
+# Optional REPL history
+.node_repl_history
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Backup Files
+*.backup
+*.old
+*~
+
+# Mac Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Windows Files
+Thumbs.db
+Desktop.ini
+
+# Linux Files
+.directory
+
+# Project Specific
+/local/
+/private/
+/secret/
+/sensitive/
+temp/
+tmp/
+cache/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+
+# Credentials (IMPORTANT!)
+credentials.json (if contains real data)
+config/credentials.json (if contains real data)
+secrets.json
+.credentials
+
+# Sensitive Files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+private_key.txt
+
+# Generated Files
+/dist/
+/build/
+*.bundle.js
+*.min.js
+*.min.css
+
+# Documentation Generated
+/docs/_build/
+
+# Package Manager
+package-lock.json (optional)
+yarn.lock (optional)
+pnpm-lock.yaml (optional)
+
+# VS Code extensions
+.vscode/extensions.json
+
+# Vitest
+.vitest/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+
+# webpack
+.webpack_cache/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# NX
+dist/
+.nx/cache
+
+# Storybook
+storybook-static/
+
+# Temporary directories
+.temp/
+.tmp/
+temp/
+tmp/
+
+# ============================================
+# UNCOMMENT FOR SPECIFIC TOOLS:
+# ============================================
+
+# For Python development
+# __pycache__/
+# *.py[cod]
+# *$py.class
+# .Python
+# env/
+# venv/
+
+# For Docker
+# .docker/
+# docker-compose.override.yml
+
+# For GitHub Pages
+# .github/workflows/
+# _site/
+# .jekyll-metadata
+
+# ============================================
+# IMPORTANT SECURITY NOTES:
+# ============================================
+# 1. Never commit .env files with real credentials
+# 2. Never commit private keys or certificates
+# 3. Never commit real credentials.json files
+# 4. Never commit database files
+# 5. Use .env.example as template instead
+# 6. Use environment variables for sensitive data
+# 7. Review .gitignore before each commit
+# 8. Use git-secrets to prevent credential leaks
+# 9. Setup branch protection rules
+# 10. Enable code scanning and dependency checks
+
+# ============================================
+# WHITELIST (force include if needed):
+# ============================================
+# Use ! to negate rules:
+# !.gitkeep
+# !important-but-ignored-file.txt
+# ============================================

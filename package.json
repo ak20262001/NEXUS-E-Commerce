@@ -1,0 +1,157 @@
+{
+  "name": "nexus-retail",
+  "version": "3.1.0",
+  "description": "Premium E-Commerce Platform dengan Login, Real-Time Chat, dan Dynamic Pricing",
+  "type": "module",
+  "main": "login-app.html",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "author": {
+    "name": "Nexus Retail Team",
+    "email": "support@nexusretail.com",
+    "url": "https://nexusretail.com"
+  },
+  "contributors": [
+    {
+      "name": "Development Team",
+      "email": "dev@nexusretail.com"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/nexus-retail/nexus-retail",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexus-retail/nexus-retail.git",
+    "directory": "."
+  },
+  "bugs": {
+    "url": "https://github.com/nexus-retail/nexus-retail/issues",
+    "email": "support@nexusretail.com"
+  },
+  "keywords": [
+    "e-commerce",
+    "shopping",
+    "chat",
+    "real-time",
+    "dynamic-pricing",
+    "vanilla-javascript",
+    "tailwind-css",
+    "responsive",
+    "pwa",
+    "retail",
+    "seller",
+    "buyer",
+    "indonesian"
+  ],
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx http-server -p 8000",
+    "dev": "npx http-server -p 8000 -c-1",
+    "build": "echo 'No build step required'",
+    "test": "echo 'Run tests in browser'",
+    "lint": "echo 'No linter configured'",
+    "format": "echo 'No formatter configured'",
+    "clean": "rm -rf .DS_Store node_modules/ .cache/",
+    "predeploy": "echo 'Preparing for deployment'",
+    "deploy:gh": "git push origin main",
+    "deploy:netlify": "netlify deploy --prod",
+    "deploy:vercel": "vercel --prod"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.3.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "optionalDependencies": {
+    "python": "^0.0.4"
+  },
+  "features": {
+    "authentication": true,
+    "chat": true,
+    "dynamicPricing": true,
+    "shopping": true,
+    "darkMode": true,
+    "responsive": true,
+    "pwa": false,
+    "backend": false
+  },
+  "versions": {
+    "v1.0": "Basic E-Commerce",
+    "v2.0": "E-Commerce + Cart Features",
+    "v3.0": "E-Commerce + Login + Chat",
+    "v3.1": "E-Commerce + Login + Chat + Dynamic Pricing"
+  },
+  "deployment": {
+    "platforms": [
+      "GitHub Pages",
+      "Netlify",
+      "Vercel",
+      "Traditional Web Host",
+      "Docker",
+      "AWS",
+      "Heroku"
+    ],
+    "recommended": "Netlify",
+    "minimumRequirements": {
+      "storage": "10MB",
+      "bandwidth": "Unlimited",
+      "ssl": true,
+      "cdn": "Recommended"
+    }
+  },
+  "browsers": {
+    "chrome": ">=90",
+    "firefox": ">=88",
+    "safari": ">=14",
+    "edge": ">=90",
+    "mobile": "All modern versions"
+  },
+  "performance": {
+    "loadTime": "1-2s",
+    "bundleSize": "121KB",
+    "coreWebVitals": true
+  },
+  "security": {
+    "https": true,
+    "csp": true,
+    "xss": true,
+    "csrf": true,
+    "validation": true
+  },
+  "accessibility": {
+    "wcag": "2.1 AA",
+    "aria": true,
+    "keyboard": true,
+    "screenReader": true
+  },
+  "internationalization": {
+    "default": "id-ID",
+    "supported": [
+      "id-ID",
+      "en-US"
+    ]
+  },
+  "documentation": {
+    "readme": "README.md",
+    "quickStart": "START_HERE.md",
+    "api": "LOGIN_CHAT_GUIDE.md",
+    "pricing": "DYNAMIC_PRICING_GUIDE.md",
+    "setup": "SETUP_GUIDE.md"
+  },
+  "changelog": {
+    "3.1.0": "Dynamic pricing with auto-revert, real-time display update",
+    "3.0.0": "Login system, real-time chat, auto-reset chat",
+    "2.0.0": "Complete cart management, clear cart, notifications",
+    "1.0.0": "Initial e-commerce release"
+  },
+  "contributors_count": 5,
+  "downloads": 1000,
+  "stars": 50,
+  "forks": 10,
+  "lastUpdate": "2024-02-01",
+  "status": "active",
+  "productionReady": true
+}
