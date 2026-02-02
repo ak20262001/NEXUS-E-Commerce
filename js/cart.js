@@ -20,6 +20,11 @@ function initializeCart() {
  * @param {number} productId - ID produk
  */
 function addToCart(productId) {
+        if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+        showToast('Silakan login dulu untuk belanja! 🛒', 'info');
+        renderLoginModal(); 
+        return; 
+    }
     const product = dummyData.find(p => p.id === productId);
 
     if (!product) {
