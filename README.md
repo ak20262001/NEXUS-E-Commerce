@@ -1,4 +1,4 @@
-# 🚀 NEXUS RETAIL v3.1
+# 🚀 NEXUS RETAIL
 
 **Premium E-Commerce Platform dengan Login, Real-Time Chat, dan Dynamic Pricing**
 
