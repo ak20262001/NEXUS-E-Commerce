@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nexus Retail - Premium E-Commerce Platform">
-    <title>Nexus Retail | Premium E-Commerce</title>
+    <meta name="description" content="Nexus Retail - Premium E-Commerce with Chat">
+    <title>Nexus Retail | Premium E-Commerce with Chat</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,15 +56,27 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         .animate-slide-up {
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
         }
 
         /* Custom Scrollbar */
@@ -81,6 +93,57 @@
             background: #334155;
         }
 
+        /* Chat Messages Styling */
+        .message-item {
+            display: flex;
+            animation: slideUp 0.3s ease-out forwards;
+        }
+
+        .message-item.sender {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            word-wrap: break-word;
+        }
+
+        .message-item.sender .message-bubble {
+            background-color: #4f46e5;
+            color: white;
+            border-radius: 16px 4px 16px 16px;
+        }
+
+        .message-item.receiver .message-bubble {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            border-radius: 4px 16px 16px 16px;
+        }
+
+        .dark .message-item.receiver .message-bubble {
+            background-color: #334155;
+            color: #f1f5f9;
+        }
+
+        .message-sender {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            opacity: 0.9;
+        }
+
+        .message-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
         /* Toast Notification */
         @keyframes slideInRight {
             from {
@@ -95,6 +158,25 @@
 
         .toast-notification {
             animation: slideInRight 0.3s ease-out forwards;
+        }
+
+        /* Status Badge */
+        .online-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
     </style>
 </head>
@@ -135,10 +217,12 @@
                         <span id="cartBadge" class="absolute -top-1 -right-1 h-5 w-5 bg-brand-600 border-2 border-white dark:border-dark-bg rounded-full text-[10px] font-bold text-white flex items-center justify-center transform scale-0 transition-transform">0</span>
                     </button>
 
-                    <!-- Login Button -->
-                    <button class="hidden sm:block bg-slate-900 dark:bg-white dark:text-slate-900 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 transition shadow-md">
-                        Login
-                    </button>
+                    <!-- Auth Container -->
+                    <div id="auth-container">
+                        <button onclick="renderLoginModal()" class="px-6 py-2.5 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700 transition">
+                            <i class="fa-solid fa-sign-in-alt mr-2"></i>Login
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,19 +245,13 @@
 
             <!-- Cart Footer -->
             <div class="p-6 border-t dark:border-dark-border space-y-4">
-                <!-- Item Count -->
                 <div class="flex justify-between items-center text-sm font-semibold text-slate-600 dark:text-slate-400">
                     <span>Total Item: <span id="totalItemCount" class="font-bold text-brand-600">0</span></span>
-                    <span>Berat: <span id="totalWeight" class="font-bold text-brand-600">0 kg</span></span>
                 </div>
-
-                <!-- Total Price -->
                 <div class="flex justify-between items-center text-xl font-extrabold">
                     <span>Subtotal:</span>
                     <span id="cartTotalPrice">IDR 0</span>
                 </div>
-
-                <!-- Action Buttons -->
                 <div class="flex gap-3">
                     <button onclick="clearAllCart()" class="flex-1 py-3 rounded-2xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-bold hover:bg-red-100 dark:hover:bg-red-900/30 transition border border-red-200 dark:border-red-800">
                         <i class="fa-solid fa-trash-alt mr-2"></i>Kosongkan
@@ -195,7 +273,7 @@
             </div>
             <div class="relative z-10 max-w-2xl">
                 <h2 class="text-5xl font-extrabold mb-4">Eksplorasi Gaya Baru</h2>
-                <p class="text-slate-300 text-lg mb-8">Koleksi gadget dan fashion premium kini dalam satu genggaman.</p>
+                <p class="text-slate-300 text-lg mb-8">Koleksi gadget dan fashion premium dengan chat langsung ke penjual.</p>
                 <button class="bg-brand-600 hover:bg-brand-700 px-8 py-4 rounded-2xl font-bold transition">Lihat Promo</button>
             </div>
         </section>
@@ -251,7 +329,12 @@
     <script src="./js/products.js"></script>
     <script src="./js/cart.js"></script>
     <script src="./js/ui.js"></script>
-    <script src="./js/app.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/chat.js"></script>
+    <script src="./js/chat-ui.js"></script>
+    <script src="./js/login-ui.js"></script>
+    <script src="./js/price-manager.js"></script>
+    <script src="./js/app-with-chat.js"></script>
 </body>
 
 </html>

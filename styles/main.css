@@ -1,0 +1,113 @@
+/* Glass Morphism Effect */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Smooth Transitions */
+body {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Product Card Hover Effects */
+.product-card {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+}
+
+.product-card img {
+    transition: transform 0.7s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.1);
+}
+
+/* Smooth Input Focus */
+input:focus,
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Category Button States */
+.cat-btn {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.cat-btn.active {
+    transform: scale(1.02);
+}
+
+.cat-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Badge Animation */
+#cartBadge {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#cartBadge.scale-100 {
+    transform: scale(1);
+}
+
+/* Loading Spinner */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Smooth Drawer Animation */
+#cartContent {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Chat Window Transitions */
+#chatWindow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#chatWindow.scale-0 {
+    transform: scale(0);
+    opacity: 0;
+}
+
+#chatWindow.scale-100 {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Button Pressed Effect */
+button {
+    transition: all 0.2s ease;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Dark Mode Text Color Support */
+.dark {
+    color-scheme: dark;
+}
+
+.light {
+    color-scheme: light;
+}
