@@ -40,6 +40,19 @@
         }
     </script>
 
+    <script>
+        // Cek apakah user punya tiket "fromOpening"?
+        if (!sessionStorage.getItem('fromOpening')) {
+            // Jika TIDAK punya tiket (misal: hasil refresh atau ketik link langsung)
+            // Tendang balik ke opening
+            window.location.href = 'Opening.html'; 
+        } else {
+            // Jika PUNYA tiket
+            // Robek tiketnya (Hapus session), supaya kalau direfresh dia dianggap tidak punya tiket lagi
+            sessionStorage.removeItem('fromOpening');
+        }
+    </script>
+
     <style>
         .glass {
             background: rgba(255, 255, 255, 0.7);

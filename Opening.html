@@ -141,6 +141,8 @@
             
             const targetUrl = this.getAttribute('href');
 
+            sessionStorage.setItem('fromOpening', 'true');
+            
             // Jalankan animasi keluar
             mainBody.classList.add('page-exit-active');
 
