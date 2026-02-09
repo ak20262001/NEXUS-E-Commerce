@@ -9,8 +9,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -28,17 +27,9 @@
     </script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* ========== GLASS MORPHISM ========== */
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -49,75 +40,31 @@
             backdrop-filter: blur(12px);
         }
 
-        /* ========== ANIMATIONS ========== */
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        .animate-slide-up {
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        .animate-slide-in { animation: slideIn 0.3s ease-out forwards; }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .animate-slide-in {
-            animation: slideIn 0.3s ease-out forwards;
-        }
-
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        /* ========== CHAT STYLES ========== */
         .chat-bubble {
             padding: 12px 16px;
             border-radius: 18px;
@@ -148,21 +95,10 @@
             border-color: #4b5563;
         }
 
-        /* ========== SCROLLBAR ========== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
 
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-
-        .dark ::-webkit-scrollbar-thumb {
-            background: #475569;
-        }
-
-        /* ========== HERO SECTION ========== */
         .hero-section {
             background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
             border-radius: 2rem;
@@ -178,7 +114,6 @@
             opacity: 0.3;
         }
 
-        /* ========== MODAL OVERLAY ========== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -194,12 +129,20 @@
             justify-content: center;
         }
 
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 2rem 1.5rem !important;
-            }
+        #seller-options-panel {
+            scrollbar-width: thin;
+            scrollbar-color: #93c5fd #dbeafe;
+        }
 
+        #seller-options-panel::-webkit-scrollbar { width: 6px; }
+        #seller-options-panel::-webkit-scrollbar-track { background: #dbeafe; border-radius: 3px; }
+        #seller-options-panel::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 3px; }
+        #seller-options-panel::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+        .dark #seller-options-panel::-webkit-scrollbar-track { background: #1e3a8a; }
+        .dark #seller-options-panel::-webkit-scrollbar-thumb { background: #3b82f6; }
+
+        @media (max-width: 768px) {
+            .hero-section { padding: 2rem 1.5rem !important; }
             #nexus-chatbot {
                 width: calc(100vw - 40px) !important;
                 height: calc(100vh - 140px) !important;
@@ -208,16 +151,103 @@
                 left: 20px !important;
             }
         }
+
+        .chatbot-widget { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+        .chatbot-button {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: none; color: white; font-size: 24px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .chatbot-button:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5); }
+        .chatbot-button.active { display: none; }
+
+        #nexus-chatbot {
+            position: fixed; bottom: 100px; right: 20px;
+            width: 400px; max-width: calc(100vw - 40px);
+            height: 600px; max-height: calc(100vh - 140px);
+            background: white; border-radius: 16px;
+            box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s ease; overflow: hidden; z-index: 999;
+        }
+        .dark #nexus-chatbot { background: #1e293b; color: #f1f5f9; }
+        #nexus-chatbot.chatbot-open { opacity: 1; visibility: visible; transform: scale(1) translateY(0); }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white; padding: 20px; border-radius: 16px 16px 0 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .chatbot-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
+        .chatbot-header-actions { display: flex; gap: 10px; }
+        .chatbot-header-btn {
+            background: rgba(255, 255, 255, 0.2); border: none; color: white;
+            width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+            font-size: 16px; transition: background 0.2s;
+        }
+        .chatbot-header-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+        #chatbot-messages {
+            flex: 1; overflow-y: auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 12px;
+            background: #f8fafc;
+        }
+        .dark #chatbot-messages { background: #0f172a; }
+
+        .chatbot-message { display: flex; animation: slideUp 0.3s ease-out; }
+        .user-message { justify-content: flex-end; }
+        .bot-message { justify-content: flex-start; }
+
+        .message-content {
+            max-width: 75%; padding: 12px 16px; border-radius: 12px;
+            word-wrap: break-word; line-height: 1.4; font-size: 14px;
+        }
+        .user-message .message-content {
+            background: #4f46e5; color: white; border-radius: 12px 4px 12px 12px;
+        }
+        .bot-message .message-content {
+            background: white; color: #1e293b; border: 1px solid #e2e8f0;
+            border-radius: 4px 12px 12px 12px;
+        }
+        .dark .bot-message .message-content { background: #334155; color: #f1f5f9; border-color: #475569; }
+        .message-time { font-size: 11px; color: #94a3b8; margin-top: 4px; padding: 0 4px; }
+
+        .chatbot-input-area {
+            border-top: 1px solid #e2e8f0; padding: 12px; background: white;
+            display: flex; gap: 8px; align-items: flex-end;
+        }
+        .dark .chatbot-input-area { background: #1e293b; border-color: #334155; }
+
+        #chatbot-input {
+            flex: 1; border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 10px 12px; font-size: 14px; font-family: inherit;
+            resize: none; max-height: 100px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .dark #chatbot-input { background: #334155; color: #f1f5f9; border-color: #475569; }
+        #chatbot-input:focus { border-color: #4f46e5; }
+
+        .chatbot-send-btn {
+            background: #4f46e5; border: none; color: white;
+            width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+            font-size: 16px; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .chatbot-send-btn:hover { background: #4338ca; }
+        .chatbot-send-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
     </style>
 </head>
 
 <body class="bg-slate-50 dark:bg-dark-bg text-slate-900 dark:text-slate-100 transition-colors duration-300 font-sans">
 
-    <!-- ========== NAVBAR ========== -->
     <nav class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-dark-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
                 <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
                     <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-600/30">
                         <i class="fa-solid fa-bolt text-white text-xl"></i>
@@ -225,7 +255,6 @@
                     <span class="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-violet-600">NEXUS</span>
                 </div>
 
-                <!-- Search Bar (Hidden on Mobile) -->
                 <div class="hidden lg:flex flex-1 max-w-xl mx-12">
                     <div class="relative w-full group">
                         <input type="text" id="searchInput" placeholder="Cari barang impian Anda..."
@@ -234,31 +263,24 @@
                     </div>
                 </div>
 
-                <!-- Right Actions -->
                 <div class="flex items-center gap-2 sm:gap-6">
-                    <!-- Theme Toggle -->
                     <button onclick="toggleTheme()" class="p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                         <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                     </button>
 
-                    <!-- Cart Button -->
                     <button onclick="toggleCart()" class="relative group p-2.5">
                         <i class="fa-solid fa-bag-shopping text-xl group-hover:text-brand-600 transition-colors"></i>
                         <span id="cartBadge" class="absolute -top-1 -right-1 h-5 w-5 bg-brand-600 border-2 border-white dark:border-dark-bg rounded-full text-[10px] font-bold text-white flex items-center justify-center hidden animate-pulse">0</span>
                     </button>
 
-                    <!-- Role Switcher -->
                     <div class="flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
                         <i class="fa-solid fa-user text-sm text-gray-600 dark:text-gray-400"></i>
                         <span class="text-sm font-medium" id="current-role">Pembeli</span>
-                        <button id="role-toggle"
-                            class="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition text-xs"
-                            onclick="toggleRole()">
+                        <button id="role-toggle" class="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition text-xs" onclick="toggleRole()">
                             <i class="fa-solid fa-rotate"></i>
                         </button>
                     </div>
 
-                    <!-- Auth Container -->
                     <div id="auth-container">
                         <button onclick="renderLoginModal()" class="px-6 py-2.5 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700 transition">
                             <i class="fa-solid fa-sign-in-alt mr-2"></i>Login
@@ -269,7 +291,6 @@
         </div>
     </nav>
 
-    <!-- ========== CART DRAWER ========== -->
     <div id="cartDrawer" class="fixed inset-0 z-[60] pointer-events-none">
         <div id="cartOverlay" onclick="toggleCart()" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none"></div>
         <div id="cartContent" class="absolute right-0 top-0 h-full w-full max-w-md bg-white dark:bg-dark-card shadow-2xl translate-x-full transition-transform duration-500 pointer-events-auto flex flex-col">
@@ -302,9 +323,7 @@
         </div>
     </div>
 
-    <!-- ========== MAIN CONTENT ========== -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Hero Section -->
         <section class="hero-section relative rounded-[2rem] overflow-hidden mb-12 bg-slate-900 text-white py-16 px-10">
             <div class="relative z-10 max-w-2xl">
                 <h2 class="text-5xl font-extrabold mb-4">Eksplorasi Gaya Baru</h2>
@@ -313,7 +332,6 @@
             </div>
         </section>
 
-        <!-- Category Tabs -->
         <div class="mb-10">
             <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Kategori Produk</h3>
             <div class="flex flex-wrap gap-3" id="categoryTabs">
@@ -326,7 +344,6 @@
             </div>
         </div>
 
-        <!-- Products Header & Sort -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
                 <h3 class="text-2xl font-bold" id="categoryTitle">Semua Produk</h3>
@@ -344,21 +361,15 @@
             </div>
         </div>
 
-        <!-- Product Grid -->
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Products will be rendered here -->
-        </div>
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <!-- ========== FOOTER ========== -->
     <footer class="bg-white dark:bg-dark-card border-t border-slate-200 dark:border-dark-border mt-20 py-12 text-center">
         <p class="text-slate-500 font-medium">&copy; 2026 Nexus Retail Group. All Rights Reserved.</p>
     </footer>
 
-    <!-- ========== CHAT PAGE ========== -->
     <div id="chat-modal" class="hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] flex flex-col overflow-hidden">
-            <!-- Close Button -->
             <div class="flex justify-end p-4 border-b dark:border-dark-border">
                 <button onclick="closeChat()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition">
                     <i class="fa-solid fa-xmark text-xl"></i>
@@ -366,7 +377,6 @@
             </div>
 
             <div class="flex flex-1 overflow-hidden gap-6 p-6">
-                <!-- Chat List -->
                 <div class="w-80 bg-slate-50 dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-dark-border overflow-hidden flex flex-col">
                     <div class="p-4 border-b dark:border-dark-border flex justify-between items-center">
                         <h2 class="font-bold text-lg">Pesan</h2>
@@ -379,7 +389,6 @@
                     </div>
                 </div>
 
-                <!-- Chat Window -->
                 <div class="flex-1 bg-slate-50 dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-dark-border overflow-hidden flex flex-col">
                     <div id="chat-header" class="p-4 border-b dark:border-dark-border flex items-center justify-between bg-white dark:bg-dark-card">
                         <div>
@@ -399,22 +408,31 @@
                         <p class="text-center text-slate-500">Pilih chat untuk mulai pesan</p>
                     </div>
 
-                    <!-- Typing Indicator -->
                     <div id="typing-indicator" class="px-6 py-2 bg-white dark:bg-dark-card hidden">
                         <div class="flex items-center gap-2 text-sm text-slate-500">
                             <div class="flex gap-1">
-                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-                                    style="animation-delay: 0s"></span>
-                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-                                    style="animation-delay: 0.2s"></span>
-                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-                                    style="animation-delay: 0.4s"></span>
+                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
                             </div>
                             <span id="typing-text">sedang mengetik...</span>
                         </div>
                     </div>
 
                     <div class="p-4 border-t dark:border-dark-border bg-white dark:bg-dark-card">
+                        <div id="seller-options-panel" class="hidden max-h-[300px] overflow-y-auto space-y-3 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mb-3">
+                            <div class="flex justify-between items-center sticky top-0 bg-blue-50 dark:bg-blue-900/20 pb-2 border-b border-blue-200 dark:border-blue-700 z-10">
+                                <label class="text-sm font-bold">Berikan Opsi Produk</label>
+                                <button onclick="closeSellersOptions()" class="text-xs p-1.5 hover:bg-blue-100 dark:hover:bg-blue-900 rounded transition">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div id="seller-options-container" class="space-y-3 pt-2"></div>
+                            <button onclick="sendSellerOptions()" class="w-full py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition sticky bottom-0">
+                                <i class="fa-solid fa-paper-plane mr-2"></i>Kirim Opsi Produk
+                            </button>
+                        </div>
+
                         <div class="flex gap-3">
                             <input type="text" id="message-input" placeholder="Ketik pesan..."
                                 class="flex-1 px-4 py-3 border border-slate-200 dark:border-dark-border dark:bg-slate-700 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600"
@@ -424,6 +442,9 @@
                                 disabled>
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
+                            <button id="add-options-btn" onclick="showSellerOptions()" class="hidden px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition" title="Tambah Opsi Produk">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -431,7 +452,26 @@
         </div>
     </div>
 
-    <!-- ========== CHAT SETTINGS MODAL ========== -->
+    <div id="variants-modal" class="modal-overlay">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-md p-6 animate-slide-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Pilih Varian Produk</h2>
+                <button onclick="closeVariantsModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="variants-content" class="space-y-6"></div>
+            <div class="mt-6 flex gap-3">
+                <button onclick="closeVariantsModal()" class="flex-1 py-3 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                    Batal
+                </button>
+                <button onclick="sendVariantSelection()" class="flex-1 py-3 rounded-lg bg-brand-600 text-white font-bold hover:bg-brand-700 transition">
+                    Tanyakan Ke Penjual
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="chat-settings-modal" class="modal-overlay">
         <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-md p-8 animate-slide-up">
             <div class="flex justify-between items-center mb-6">
@@ -440,9 +480,7 @@
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
-
             <div class="space-y-6">
-                <!-- Auto Delete Setting -->
                 <div>
                     <label class="block text-sm font-bold mb-3">Waktu Auto-Delete Chat (menit)</label>
                     <div class="flex items-center gap-3">
@@ -453,26 +491,18 @@
                     </div>
                     <p class="text-xs text-slate-500 mt-2">Riwayat chat akan dihapus jika tidak ada aktivitas selama waktu yang ditentukan</p>
                 </div>
-
-                <!-- Enable/Disable Auto Delete -->
                 <div>
                     <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" id="enable-auto-delete" checked
-                            class="w-5 h-5 rounded cursor-pointer"
-                            onchange="toggleAutoDelete()">
+                        <input type="checkbox" id="enable-auto-delete" checked class="w-5 h-5 rounded cursor-pointer" onchange="toggleAutoDelete()">
                         <span class="font-medium">Aktifkan Auto-Delete</span>
                     </label>
                 </div>
-
-                <!-- Info Box -->
                 <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                     <p class="text-sm text-blue-800 dark:text-blue-200">
                         <i class="fa-solid fa-info-circle mr-2"></i>
                         Pengaturan ini akan <strong>direset</strong> saat halaman di-refresh
                     </p>
                 </div>
-
-                <!-- Buttons -->
                 <div class="flex gap-3 pt-4">
                     <button onclick="resetChatSettings()" class="flex-1 py-3 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition">
                         Reset ke Default
@@ -485,15 +515,10 @@
         </div>
     </div>
 
-    <!-- ========== TOAST NOTIFICATION ========== -->
     <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 max-w-xs"></div>
 
-    <!-- ========== CHATBOT WIDGET ========== -->
     <div class="chatbot-widget">
-        <button class="chatbot-button" id="chatbot-toggle" onclick="toggleChatbot()" title="Chat with Nexus Assistant">
-            💬
-        </button>
-
+        <button class="chatbot-button" id="chatbot-toggle" onclick="toggleChatbot()" title="Chat with Nexus Assistant">💬</button>
         <div id="nexus-chatbot">
             <div class="chatbot-header">
                 <div>
@@ -501,304 +526,126 @@
                     <small style="font-size: 11px; opacity: 0.8;">Online</small>
                 </div>
                 <div class="chatbot-header-actions">
-                    <button class="chatbot-header-btn" onclick="clearChatbotHistory()" title="Clear history">
-                        🗑️
-                    </button>
-                    <button class="chatbot-header-btn" onclick="toggleChatbot()" title="Close">
-                        ✕
-                    </button>
+                    <button class="chatbot-header-btn" onclick="clearChatbotHistory()" title="Clear history">🗑️</button>
+                    <button class="chatbot-header-btn" onclick="toggleChatbot()" title="Close">✕</button>
                 </div>
             </div>
             <div id="chatbot-messages"></div>
             <div class="chatbot-input-area">
-                <input 
-                    type="text"
-                    id="chatbot-input"
-                    placeholder="Tanya tentang produk..."
-                    onkeypress="handleChatbotKeypress(event)"
-                >
-                <button class="chatbot-send-btn" onclick="sendChatbotMessage()" title="Send">
-                    ➤
-                </button>
+                <input type="text" id="chatbot-input" placeholder="Tanya tentang produk..." onkeypress="handleChatbotKeypress(event)">
+                <button class="chatbot-send-btn" onclick="sendChatbotMessage()" title="Send">➤</button>
             </div>
         </div>
     </div>
 
-    <style>
-        .chatbot-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-        }
-
-        .chatbot-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chatbot-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
-        }
-
-        .chatbot-button.active {
-            display: none;
-        }
-
-        #nexus-chatbot {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 400px;
-            max-width: calc(100vw - 40px);
-            height: 600px;
-            max-height: calc(100vh - 140px);
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.95) translateY(20px);
-            transition: all 0.3s ease;
-            overflow: hidden;
-            z-index: 999;
-        }
-
-        .dark #nexus-chatbot {
-            background: #1e293b;
-            color: #f1f5f9;
-        }
-
-        #nexus-chatbot.chatbot-open {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1) translateY(0);
-        }
-
-        .chatbot-header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 16px 16px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chatbot-header h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .chatbot-header-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chatbot-header-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.2s;
-        }
-
-        .chatbot-header-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        #chatbot-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: #f8fafc;
-        }
-
-        .dark #chatbot-messages {
-            background: #0f172a;
-        }
-
-        .chatbot-message {
-            display: flex;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .user-message {
-            justify-content: flex-end;
-        }
-
-        .bot-message {
-            justify-content: flex-start;
-        }
-
-        .message-content {
-            max-width: 75%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            word-wrap: break-word;
-            line-height: 1.4;
-            font-size: 14px;
-        }
-
-        .user-message .message-content {
-            background: #4f46e5;
-            color: white;
-            border-radius: 12px 4px 12px 12px;
-        }
-
-        .bot-message .message-content {
-            background: white;
-            color: #1e293b;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px 12px 12px 12px;
-        }
-
-        .dark .bot-message .message-content {
-            background: #334155;
-            color: #f1f5f9;
-            border-color: #475569;
-        }
-
-        .message-time {
-            font-size: 11px;
-            color: #94a3b8;
-            margin-top: 4px;
-            padding: 0 4px;
-        }
-
-        .chatbot-input-area {
-            border-top: 1px solid #e2e8f0;
-            padding: 12px;
-            background: white;
-            display: flex;
-            gap: 8px;
-            align-items: flex-end;
-        }
-
-        .dark .chatbot-input-area {
-            background: #1e293b;
-            border-color: #334155;
-        }
-
-        #chatbot-input {
-            flex: 1;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 14px;
-            font-family: inherit;
-            resize: none;
-            max-height: 100px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .dark #chatbot-input {
-            background: #334155;
-            color: #f1f5f9;
-            border-color: #475569;
-        }
-
-        #chatbot-input:focus {
-            border-color: #4f46e5;
-        }
-
-        .chatbot-send-btn {
-            background: #4f46e5;
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .chatbot-send-btn:hover {
-            background: #4338ca;
-        }
-
-        .chatbot-send-btn:disabled {
-            background: #cbd5e1;
-            cursor: not-allowed;
-        }
-    </style>
-
-    <!-- ========== SCRIPTS ========== -->
     <script>
-        // ===== INITIALIZATION DATA =====
         const products = [
-            { id: 1, name: "Smart Watch", price: 2500000, category: "Jam Tangan", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop", seller: "Toko Elektronik ABC", sellerId: "seller_1" },
-            { id: 2, name: "Wireless Earbuds", price: 1200000, category: "Handphone", image: "https://images.pexels.com/photos/3587478/pexels-photo-3587478.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Tech Store", sellerId: "seller_2" },
-            { id: 3, name: "Backpack", price: 500000, category: "Tas", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop", seller: "Fashion Hub", sellerId: "seller_3" },
-            { id: 4, name: "Phone Case", price: 150000, category: "Handphone", image: "https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Accessories Plus", sellerId: "seller_4" },
-            { id: 5, name: "Laptop Stand", price: 350000, category: "Laptop", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop", seller: "Office Supplies", sellerId: "seller_5" },
-            { id: 6, name: "USB Cable", price: 75000, category: "Handphone", image: "https://images.pexels.com/photos/4195325/pexels-photo-4195325.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Tech Store", sellerId: "seller_2" },
-            { id: 7, name: "Running Shoes", price: 800000, category: "Sepatu", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop", seller: "Sport Store", sellerId: "seller_6" },
-            { id: 8, name: "Gaming Laptop", price: 15000000, category: "Laptop", image: "https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Tech Store", sellerId: "seller_2" },
+            { id: 1, name: "Smart Watch", price: 2500000, category: "Jam Tangan", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop", seller: "Toko Elektronik ABC", sellerId: "seller_1", variants: { "Warna": ["Hitam", "Perak", "Gold", "Biru"], "Size": ["38mm", "42mm"] }},
+            { id: 2, name: "Wireless Earbuds", price: 1200000, category: "Handphone", image: "https://images.pexels.com/photos/3587478/pexels-photo-3587478.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Tech Store", sellerId: "seller_2", variants: { "Warna": ["Putih", "Hitam", "Biru Muda"], "Garansi": ["1 Tahun", "2 Tahun"] }},
+            { id: 3, name: "Backpack", price: 500000, category: "Tas", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop", seller: "Fashion Hub", sellerId: "seller_3", variants: { "Warna": ["Navy", "Hitam", "Coklat", "Abu-abu"] }},
+            { id: 4, name: "Phone Case", price: 150000, category: "Handphone", image: "https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Accessories Plus", sellerId: "seller_4", variants: { "Tipe HP": ["iPhone 13", "iPhone 14", "Samsung A13", "Samsung A14"], "Material": ["Silikon", "Kulit", "Plastik"] }},
+            { id: 5, name: "Laptop Stand", price: 350000, category: "Laptop", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop", seller: "Office Supplies", sellerId: "seller_5", variants: { "Material": ["Aluminium", "Plastik", "Kayu"] }},
+            { id: 6, name: "USB Cable", price: 75000, category: "Handphone", image: "https://images.pexels.com/photos/4195325/pexels-photo-4195325.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Tech Store", sellerId: "seller_2", variants: { "Tipe": ["USB-C", "Micro USB", "Lightning"], "Panjang": ["1m", "2m", "3m"] }},
+            { id: 7, name: "Running Shoes", price: 800000, category: "Sepatu", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop", seller: "Sport Store", sellerId: "seller_6", variants: { "Size": ["36", "37", "38", "39", "40", "41", "42", "43"], "Warna": ["Merah", "Biru", "Putih", "Hitam"] }},
+            { id: 8, name: "Gaming Laptop", price: 15000000, category: "Laptop", image: "https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=500&h=500&fit=crop", seller: "Tech Store", sellerId: "seller_2", variants: { "Processor": ["Intel i7", "Intel i9", "AMD Ryzen 7", "AMD Ryzen 9"], "RAM": ["8GB", "16GB", "32GB"], "Penyimpanan": ["512GB SSD", "1TB SSD", "2TB SSD"], "Warna": ["Hitam", "Abu-abu", "Biru"] }},
         ];
 
-        let chats = {};
-        let currentChat = null;
-        let currentUser = { id: 'buyer_1', name: 'Pembeli', role: 'buyer' };
-        let typingTimeout = null;
-        let lastMessageCount = 0;
-        let currentCategory = 'All';
-        let cart = [];
+        let chats = {}, currentChat = null, currentUser = { id: 'buyer_1', name: 'Pembeli', role: 'buyer' };
+        let typingTimeout = null, lastMessageCount = 0, currentCategory = 'All', cart = [];
+        let selectedVariants = {}, sellerOptionsData = {};
+        let chatSettings = { autoDeleteMinutes: 5, enableAutoDelete: true };
+        let inactivityTimers = {};
 
-        // ===== CHAT SETTINGS =====
-        let chatSettings = {
-            autoDeleteMinutes: 5,
-            enableAutoDelete: true
-        };
-
-        let inactivityTimers = {}; // Store timers per chat
-
-        // ===== ROLE TOGGLE =====
         function toggleRole() {
-            if (currentUser.role === 'buyer') {
-                currentUser = { id: 'seller_1', name: 'Toko Elektronik ABC', role: 'seller' };
-                document.getElementById('current-role').textContent = 'Penjual';
-            } else {
-                currentUser = { id: 'buyer_1', name: 'Pembeli', role: 'buyer' };
-                document.getElementById('current-role').textContent = 'Pembeli';
-            }
-
+            currentUser = currentUser.role === 'buyer' 
+                ? { id: 'seller_1', name: 'Toko Elektronik ABC', role: 'seller' }
+                : { id: 'buyer_1', name: 'Pembeli', role: 'buyer' };
+            document.getElementById('current-role').textContent = currentUser.role === 'buyer' ? 'Pembeli' : 'Penjual';
             renderChats();
-            if (currentChat) {
-                renderMessages();
-            }
-
+            if (currentChat) renderMessages();
             showNotification(`Mode: ${currentUser.role === 'buyer' ? 'Pembeli' : 'Penjual'}`);
         }
 
-        // ===== CHAT SETTINGS MANAGEMENT =====
+        function openVariantsModal(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product || !product.variants) { showNotification('Produk tidak memiliki varian'); return; }
+            selectedVariants = { productId };
+            const variantsContent = document.getElementById('variants-content');
+            variantsContent.innerHTML = '';
+            Object.entries(product.variants).forEach(([variantName, options]) => {
+                const variantDiv = document.createElement('div');
+                variantDiv.className = 'space-y-2';
+                variantDiv.innerHTML = `<label class="block text-sm font-bold">${variantName}</label><div class="space-y-2">${options.map(option => `<label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="${variantName}" value="${option}" onchange="selectedVariants['${variantName}'] = '${option}'" class="w-4 h-4"><span class="text-sm">${option}</span></label>`).join('')}</div>`;
+                variantsContent.appendChild(variantDiv);
+            });
+            document.getElementById('variants-modal').classList.add('active');
+        }
+
+        function closeVariantsModal() {
+            document.getElementById('variants-modal').classList.remove('active');
+            selectedVariants = {};
+        }
+
+        function sendVariantSelection() {
+            if (!currentChat || currentUser.role !== 'buyer') { showNotification('Anda harus pembeli untuk memilih varian'); return; }
+            const product = products.find(p => p.id == selectedVariants.productId);
+            if (!product) return;
+            let variantText = `Tanya tentang: *${product.name}*\n\n`, hasVariant = false;
+            Object.entries(selectedVariants).forEach(([key, value]) => {
+                if (key !== 'productId') { variantText += `${key}: ${value}\n`; hasVariant = true; }
+            });
+            if (!hasVariant) { showNotification('Pilih minimal satu varian'); return; }
+            const message = { id: 'msg_' + Date.now() + '_' + Math.random(), senderId: currentUser.id, senderName: currentUser.name, content: variantText, timestamp: new Date(), type: 'variant-inquiry' };
+            currentChat.messages.push(message);
+            resetInactivityTimer(currentChat.id);
+            saveChatsToStorage();
+            renderMessages();
+            renderChats();
+            closeVariantsModal();
+            showNotification('✅ Pertanyaan varian terkirim ke penjual');
+        }
+
+        function showSellerOptions() {
+            if (!currentChat || currentUser.role !== 'seller') { showNotification('Hanya penjual yang bisa memberikan opsi'); return; }
+            const chatProduct = products.find(p => p.id == currentChat.productId);
+            if (!chatProduct || !chatProduct.variants) { showNotification('Produk tidak memiliki varian'); return; }
+            const panelContainer = document.getElementById('seller-options-container');
+            panelContainer.innerHTML = '';
+            sellerOptionsData = { productId: chatProduct.id };
+            Object.entries(chatProduct.variants).forEach(([variantName, options]) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'space-y-2';
+                optionDiv.innerHTML = `<label class="text-xs font-bold">${variantName}</label><select onchange="sellerOptionsData['${variantName}'] = this.value" class="w-full px-2 py-1 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 rounded text-sm"><option value="">Pilih ${variantName}</option>${options.map(option => `<option value="${option}">${option}</option>`).join('')}</select>`;
+                panelContainer.appendChild(optionDiv);
+            });
+            document.getElementById('seller-options-panel').classList.remove('hidden');
+        }
+
+        function closeSellersOptions() {
+            document.getElementById('seller-options-panel').classList.add('hidden');
+            sellerOptionsData = {};
+        }
+
+        function sendSellerOptions() {
+            if (!currentChat) return;
+            const chatProduct = products.find(p => p.id == currentChat.productId);
+            if (!chatProduct) return;
+            let optionText = `Opsi yang tersedia untuk *${chatProduct.name}*:\n\n`, hasOptions = false;
+            Object.entries(sellerOptionsData).forEach(([key, value]) => {
+                if (key !== 'productId' && value) { optionText += `📌 ${key}: ${value}\n`; hasOptions = true; }
+            });
+            if (!hasOptions) { showNotification('Pilih minimal satu opsi'); return; }
+            optionText += `\nSilakan pilih varian yang Anda inginkan! 😊`;
+            const message = { id: 'msg_' + Date.now() + '_' + Math.random(), senderId: currentUser.id, senderName: currentUser.name, content: optionText, timestamp: new Date(), type: 'product-options' };
+            currentChat.messages.push(message);
+            resetInactivityTimer(currentChat.id);
+            saveChatsToStorage();
+            renderMessages();
+            renderChats();
+            closeSellersOptions();
+            showNotification('✅ Opsi produk terkirim ke pembeli');
+        }
+
         function openChatSettings() {
             document.getElementById('chat-settings-modal').classList.add('active');
             document.getElementById('auto-delete-slider').value = chatSettings.autoDeleteMinutes;
@@ -811,17 +658,12 @@
             saveChatSettings();
         }
 
-        function updateAutoDeleteValue(value) {
-            document.getElementById('auto-delete-value').textContent = value;
-        }
+        function updateAutoDeleteValue(value) { document.getElementById('auto-delete-value').textContent = value; }
 
-        function toggleAutoDelete() {
-            chatSettings.enableAutoDelete = !chatSettings.enableAutoDelete;
-        }
+        function toggleAutoDelete() { chatSettings.enableAutoDelete = !chatSettings.enableAutoDelete; }
 
         function resetChatSettings() {
-            chatSettings.autoDeleteMinutes = 5;
-            chatSettings.enableAutoDelete = true;
+            chatSettings = { autoDeleteMinutes: 5, enableAutoDelete: true };
             document.getElementById('auto-delete-slider').value = 5;
             document.getElementById('auto-delete-value').textContent = '5';
             document.getElementById('enable-auto-delete').checked = true;
@@ -833,32 +675,18 @@
             chatSettings.enableAutoDelete = document.getElementById('enable-auto-delete').checked;
         }
 
-        // ===== INACTIVITY AUTO-DELETE =====
         function resetInactivityTimer(chatId) {
             if (!chatSettings.enableAutoDelete) return;
-
-            // Clear existing timer
-            if (inactivityTimers[chatId]) {
-                clearTimeout(inactivityTimers[chatId]);
-            }
-
-            // Set new timer
+            if (inactivityTimers[chatId]) clearTimeout(inactivityTimers[chatId]);
             inactivityTimers[chatId] = setTimeout(() => {
-                if (chats[chatId]) {
-                    console.log(`Auto-deleting chat ${chatId} due to inactivity`);
-                    deleteChat(chatId);
-                    showNotification(`Chat dihapus otomatis karena tidak ada aktivitas selama ${chatSettings.autoDeleteMinutes} menit`);
-                }
+                if (chats[chatId]) { deleteChat(chatId); showNotification(`Chat dihapus otomatis karena tidak ada aktivitas selama ${chatSettings.autoDeleteMinutes} menit`); }
             }, chatSettings.autoDeleteMinutes * 60 * 1000);
         }
 
-        // ===== DELETE CHAT FUNCTIONALITY =====
         function deleteCurrentChat() {
             if (!currentChat) return;
-
             if (confirm(`Apakah Anda yakin ingin menghapus chat dengan ${currentChat.sellerName}?\n\nChat akan dihapus dari kedua sisi (Pembeli & Penjual).`)) {
-                const chatId = currentChat.id;
-                deleteChat(chatId);
+                deleteChat(currentChat.id);
                 currentChat = null;
                 renderChats();
                 showNotification('Chat berhasil dihapus');
@@ -870,18 +698,8 @@
                 delete chats[chatId];
                 saveChatsToStorage();
                 renderChats();
-
-                // Clear the timer
-                if (inactivityTimers[chatId]) {
-                    clearTimeout(inactivityTimers[chatId]);
-                    delete inactivityTimers[chatId];
-                }
-
-                // Clear current chat if it was deleted
-                if (currentChat && currentChat.id === chatId) {
-                    currentChat = null;
-                    resetChatView();
-                }
+                if (inactivityTimers[chatId]) { clearTimeout(inactivityTimers[chatId]); delete inactivityTimers[chatId]; }
+                if (currentChat && currentChat.id === chatId) { currentChat = null; resetChatView(); }
             }
         }
 
@@ -892,13 +710,13 @@
             document.getElementById('message-input').disabled = true;
             document.getElementById('send-btn').disabled = true;
             document.getElementById('delete-chat-btn').classList.add('hidden');
+            document.getElementById('add-options-btn').classList.add('hidden');
+            document.getElementById('seller-options-panel').classList.add('hidden');
         }
 
-        // ===== THEME MANAGEMENT =====
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
             updateThemeIcon();
         }
 
@@ -907,25 +725,17 @@
             const isDark = document.documentElement.classList.contains('dark');
             icon.classList.remove('fa-moon', 'fa-sun');
             icon.classList.add(isDark ? 'fa-sun' : 'fa-moon');
-            if (isDark) icon.classList.add('text-yellow-400');
-            else icon.classList.remove('text-yellow-400');
+            isDark ? icon.classList.add('text-yellow-400') : icon.classList.remove('text-yellow-400');
         }
 
-        // ===== CART MANAGEMENT =====
         function toggleCart() {
-            const drawer = document.getElementById('cartDrawer');
-            const overlay = document.getElementById('cartOverlay');
-            const content = document.getElementById('cartContent');
-            
+            const drawer = document.getElementById('cartDrawer'), overlay = document.getElementById('cartOverlay'), content = document.getElementById('cartContent');
             const isOpen = !content.classList.contains('translate-x-full');
-            
             if (isOpen) {
                 content.classList.add('translate-x-full');
                 overlay.classList.add('opacity-0');
                 overlay.classList.remove('opacity-100', 'pointer-events-auto');
-                setTimeout(() => {
-                    drawer.classList.add('pointer-events-none');
-                }, 300);
+                setTimeout(() => drawer.classList.add('pointer-events-none'), 300);
             } else {
                 drawer.classList.remove('pointer-events-none');
                 overlay.classList.remove('opacity-0');
@@ -936,11 +746,7 @@
 
         function addToCart(product) {
             const existingItem = cart.find(item => item.id === product.id);
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
+            existingItem ? existingItem.quantity++ : cart.push({ ...product, quantity: 1 });
             renderCart();
             updateCartBadge();
             showNotification(`✅ ${product.name} ditambahkan ke keranjang`);
@@ -948,40 +754,19 @@
 
         function renderCart() {
             const cartItems = document.getElementById('cartItems');
-            let total = 0;
-            let itemCount = 0;
-
+            let total = 0, itemCount = 0;
             if (cart.length === 0) {
                 cartItems.innerHTML = '<p class="text-center text-slate-500 py-8">Keranjang kosong</p>';
                 document.getElementById('totalItemCount').textContent = '0';
                 document.getElementById('cartTotalPrice').textContent = 'IDR 0';
                 return;
             }
-
             cartItems.innerHTML = cart.map(item => {
                 const subtotal = item.price * item.quantity;
                 total += subtotal;
                 itemCount += item.quantity;
-
-                return `
-                    <div class="flex gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg animate-slide-in">
-                        <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg">
-                        <div class="flex-1">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">${item.name}</h4>
-                            <p class="text-xs text-slate-500">IDR ${item.price.toLocaleString()}</p>
-                            <div class="flex items-center gap-2 mt-2">
-                                <button onclick="updateCartQuantity(${item.id}, -1)" class="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded text-xs hover:bg-slate-300 dark:hover:bg-slate-600 transition">-</button>
-                                <span class="text-sm font-bold w-6 text-center">${item.quantity}</span>
-                                <button onclick="updateCartQuantity(${item.id}, 1)" class="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded text-xs hover:bg-slate-300 dark:hover:bg-slate-600 transition">+</button>
-                                <button onclick="removeFromCart(${item.id})" class="ml-auto px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded text-xs hover:bg-red-200 dark:hover:bg-red-800 transition">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                return `<div class="flex gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg animate-slide-in"><img src="${item.image}" class="w-16 h-16 object-cover rounded-lg"><div class="flex-1"><h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">${item.name}</h4><p class="text-xs text-slate-500">IDR ${item.price.toLocaleString()}</p><div class="flex items-center gap-2 mt-2"><button onclick="updateCartQuantity(${item.id}, -1)" class="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded text-xs hover:bg-slate-300 dark:hover:bg-slate-600 transition">-</button><span class="text-sm font-bold w-6 text-center">${item.quantity}</span><button onclick="updateCartQuantity(${item.id}, 1)" class="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded text-xs hover:bg-slate-300 dark:hover:bg-slate-600 transition">+</button><button onclick="removeFromCart(${item.id})" class="ml-auto px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded text-xs hover:bg-red-200 dark:hover:bg-red-800 transition"><i class="fa-solid fa-trash"></i></button></div></div></div>`;
             }).join('');
-
             document.getElementById('totalItemCount').textContent = itemCount;
             document.getElementById('cartTotalPrice').textContent = `IDR ${total.toLocaleString()}`;
         }
@@ -990,12 +775,7 @@
             const item = cart.find(item => item.id === productId);
             if (item) {
                 item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    renderCart();
-                    updateCartBadge();
-                }
+                item.quantity <= 0 ? removeFromCart(productId) : (renderCart(), updateCartBadge());
             }
         }
 
@@ -1004,28 +784,17 @@
             cart = cart.filter(item => item.id !== productId);
             renderCart();
             updateCartBadge();
-            if (product) {
-                showNotification(`❌ ${product.name} dihapus dari keranjang`);
-            }
+            if (product) showNotification(`❌ ${product.name} dihapus dari keranjang`);
         }
 
         function updateCartBadge() {
             const badge = document.getElementById('cartBadge');
             const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-            if (total > 0) {
-                badge.textContent = total > 9 ? '9+' : total;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
+            total > 0 ? (badge.textContent = total > 9 ? '9+' : total, badge.classList.remove('hidden')) : badge.classList.add('hidden');
         }
 
         function clearAllCart() {
-            if (cart.length === 0) {
-                showNotification('Keranjang sudah kosong');
-                return;
-            }
-            
+            if (cart.length === 0) { showNotification('Keranjang sudah kosong'); return; }
             if (confirm('Apakah Anda yakin ingin mengosongkan semua item dari keranjang?')) {
                 cart = [];
                 renderCart();
@@ -1035,118 +804,57 @@
         }
 
         function proceedCheckout() {
-            if (cart.length === 0) {
-                showNotification('⚠️ Keranjang kosong');
-                return;
-            }
-            
+            if (cart.length === 0) { showNotification('⚠️ Keranjang kosong'); return; }
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
             showNotification(`✅ Melanjutkan ke checkout (${totalItems} item - IDR ${totalPrice.toLocaleString()})`);
-            setTimeout(() => {
-                toggleCart();
-            }, 1500);
+            setTimeout(() => toggleCart(), 1500);
         }
 
-        // ===== PRODUCT FILTERING & SORTING =====
         function filterCategory(event) {
             if (!event.target.dataset.category) return;
-            
             event.preventDefault();
-            const category = event.target.dataset.category;
-            currentCategory = category;
-            
+            currentCategory = event.target.dataset.category;
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.classList.remove('active', 'bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/20');
                 btn.classList.add('bg-white', 'dark:bg-dark-card', 'border', 'border-slate-200', 'dark:border-dark-border');
             });
-            
             event.target.classList.remove('bg-white', 'dark:bg-dark-card', 'border', 'border-slate-200', 'dark:border-dark-border');
             event.target.classList.add('active', 'bg-brand-600', 'text-white', 'shadow-lg', 'shadow-brand-600/20');
-            
-            document.getElementById('categoryTitle').textContent = category === 'All' ? 'Semua Produk' : `Produk ${category}`;
+            document.getElementById('categoryTitle').textContent = currentCategory === 'All' ? 'Semua Produk' : `Produk ${currentCategory}`;
             renderProducts();
         }
 
         function renderProducts() {
             const grid = document.getElementById('productGrid');
-            let filtered = products;
-
-            if (currentCategory !== 'All') {
-                filtered = products.filter(p => p.category === currentCategory);
-            }
-
+            let filtered = currentCategory !== 'All' ? products.filter(p => p.category === currentCategory) : products;
             const sortBy = document.getElementById('sortSelect')?.value || 'default';
             let sorted = [...filtered];
-            
             if (sortBy === 'price_asc') sorted.sort((a, b) => a.price - b.price);
             if (sortBy === 'price_desc') sorted.sort((a, b) => b.price - a.price);
             if (sortBy === 'newest') sorted.reverse();
             if (sortBy === 'default') sorted.sort((a, b) => a.name.localeCompare(b.name));
-
-            grid.innerHTML = sorted.map(product => `
-                <div class="glass rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition transform hover:scale-105 animate-slide-up">
-                    <img src="${product.image}" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold mb-2 text-slate-900 dark:text-slate-100">${product.name}</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-3">By ${product.seller}</p>
-                        <p class="text-brand-600 font-bold mb-4">IDR ${product.price.toLocaleString()}</p>
-                        <div class="flex gap-2">
-                            <button 
-                                class="flex-1 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition text-sm font-medium"
-                                onclick="openChat('${product.seller}', ${product.id})"
-                            >
-                                <i class="fa-solid fa-comments mr-1"></i>Chat
-                            </button>
-                            <button 
-                                class="flex-1 px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition text-sm font-medium"
-                                onclick="addToCart({id: ${product.id}, name: '${product.name}', price: ${product.price}, image: '${product.image}', seller: '${product.seller}'})"
-                            >
-                                <i class="fa-solid fa-cart-plus mr-1"></i>Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+            grid.innerHTML = sorted.map(product => `<div class="glass rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition transform hover:scale-105 animate-slide-up"><img src="${product.image}" class="w-full h-48 object-cover"><div class="p-4"><h3 class="font-bold mb-2 text-slate-900 dark:text-slate-100">${product.name}</h3><p class="text-slate-600 dark:text-slate-400 text-sm mb-3">By ${product.seller}</p><p class="text-brand-600 font-bold mb-4">IDR ${product.price.toLocaleString()}</p><div class="flex gap-2"><button class="flex-1 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition text-sm font-medium" onclick="openChat('${product.seller}', ${product.id})"><i class="fa-solid fa-comments mr-1"></i>Chat</button><button class="flex-1 px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition text-sm font-medium" onclick="addToCart({id: ${product.id}, name: '${product.name}', price: ${product.price}, image: '${product.image}', seller: '${product.seller}'})"><i class="fa-solid fa-cart-plus mr-1"></i>Cart</button></div>${product.variants ? `<button class="w-full mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm font-medium" onclick="openVariantsModal(${product.id})"><i class="fa-solid fa-sliders mr-1"></i>Pilih Varian</button>` : ''}</div></div>`).join('');
         }
 
-        // ===== CHAT FUNCTIONALITY =====
         function openChat(sellerName, productId) {
             const product = products.find(p => p.id == productId);
             const sellerId = product ? product.sellerId : 'seller_unknown';
             const chatId = `chat_${sellerId}_${productId}`;
-
             if (!chats[chatId]) {
                 chats[chatId] = {
-                    id: chatId,
-                    sellerId: sellerId,
-                    sellerName: sellerName,
-                    productId: productId,
-                    productName: product ? product.name : 'Unknown Product',
-                    messages: [
-                        {
-                            id: 'msg_init',
-                            senderId: sellerId,
-                            senderName: sellerName,
-                            content: `Halo! Tertarik dengan ${product ? product.name : 'produk kami'}? Ada yang bisa saya bantu?`,
-                            timestamp: new Date(),
-                            isOwn: false
-                        }
-                    ],
+                    id: chatId, sellerId, sellerName, productId, productName: product ? product.name : 'Unknown Product',
+                    messages: [{ id: 'msg_init', senderId: sellerId, senderName: sellerName, content: `Halo! Tertarik dengan ${product ? product.name : 'produk kami'}? Ada yang bisa saya bantu?`, timestamp: new Date(), isOwn: false }],
                     createdAt: new Date()
                 };
                 saveChatsToStorage();
             }
-
             currentChat = chats[chatId];
             lastMessageCount = currentChat.messages.length;
-
-            // Reset inactivity timer when chat is opened
             resetInactivityTimer(chatId);
-
             document.getElementById('chat-modal').classList.remove('hidden');
             document.getElementById('delete-chat-btn').classList.remove('hidden');
+            document.getElementById('add-options-btn').classList.toggle('hidden', currentUser.role !== 'seller');
             renderChats();
             renderMessages();
             enableChatInput();
@@ -1161,74 +869,39 @@
         function renderChats() {
             const list = document.getElementById('chat-list');
             const chatIds = Object.keys(chats);
-
             if (chatIds.length === 0) {
                 list.innerHTML = '<div class="p-4 text-center text-slate-500">Belum ada chat</div>';
                 return;
             }
-
             list.innerHTML = chatIds.map(id => {
                 const chat = chats[id];
                 const lastMsg = chat.messages[chat.messages.length - 1];
                 const isActive = currentChat && currentChat.id === id;
-
-                return `
-                    <div 
-                        class="p-4 border-b dark:border-dark-border cursor-pointer transition flex justify-between items-center ${isActive ? 'bg-brand-50 dark:bg-brand-900/20 border-l-4 border-brand-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}"
-                        onclick="switchChat('${id}')"
-                    >
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">${chat.sellerName}</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">${lastMsg.content}</p>
-                            <p class="text-xs text-slate-400 mt-1">${formatTime(lastMsg.timestamp)}</p>
-                        </div>
-                        <button onclick="deleteChat('${id}'); event.stopPropagation();" class="p-2 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 rounded-lg transition text-sm ml-2 flex-shrink-0" title="Hapus Chat">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                `;
+                return `<div class="p-4 border-b dark:border-dark-border cursor-pointer transition flex justify-between items-center ${isActive ? 'bg-brand-50 dark:bg-brand-900/20 border-l-4 border-brand-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}" onclick="switchChat('${id}')"><div class="flex-1 min-w-0"><h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">${chat.sellerName}</h4><p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">${lastMsg.content}</p><p class="text-xs text-slate-400 mt-1">${formatTime(lastMsg.timestamp)}</p></div><button onclick="deleteChat('${id}'); event.stopPropagation();" class="p-2 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 rounded-lg transition text-sm ml-2 flex-shrink-0" title="Hapus Chat"><i class="fa-solid fa-trash"></i></button></div>`;
             }).join('');
         }
 
         function switchChat(chatId) {
             currentChat = chats[chatId];
             if (!currentChat) return;
-            
             lastMessageCount = currentChat.messages.length;
-            
-            // Reset inactivity timer
             resetInactivityTimer(chatId);
-            
             renderMessages();
             renderChats();
             enableChatInput();
             document.getElementById('delete-chat-btn').classList.remove('hidden');
+            document.getElementById('add-options-btn').classList.toggle('hidden', currentUser.role !== 'seller');
         }
 
         function renderMessages() {
             if (!currentChat) return;
-
             const messagesDiv = document.getElementById('chat-messages');
             const messagesHtml = currentChat.messages.map(msg => {
                 const isFromCurrentUser = msg.senderId === currentUser.id;
-
-                return `
-                    <div class="flex ${isFromCurrentUser ? 'justify-end' : 'justify-start'} animate-slide-in">
-                        <div class="chat-bubble ${isFromCurrentUser ? 'own' : 'other'}">
-                            ${!isFromCurrentUser ? `<p class="text-xs font-bold mb-1 opacity-80">${msg.senderName}</p>` : ''}
-                            <p>${msg.content}</p>
-                            <p class="text-xs ${isFromCurrentUser ? 'text-blue-200' : 'text-slate-500'} mt-1">${formatTime(msg.timestamp)}</p>
-                        </div>
-                    </div>
-                `;
+                return `<div class="flex ${isFromCurrentUser ? 'justify-end' : 'justify-start'} animate-slide-in"><div class="chat-bubble ${isFromCurrentUser ? 'own' : 'other'}">${!isFromCurrentUser ? `<p class="text-xs font-bold mb-1 opacity-80">${msg.senderName}</p>` : ''}<p>${msg.content}</p><p class="text-xs ${isFromCurrentUser ? 'text-blue-200' : 'text-slate-500'} mt-1">${formatTime(msg.timestamp)}</p></div></div>`;
             }).join('');
-
             messagesDiv.innerHTML = messagesHtml || '<p class="text-center text-slate-500">Belum ada pesan</p>';
-
-            setTimeout(() => {
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }, 100);
-
+            setTimeout(() => { messagesDiv.scrollTop = messagesDiv.scrollHeight; }, 100);
             const headerName = currentUser.role === 'buyer' ? currentChat.sellerName : 'Pembeli';
             document.getElementById('chat-name').textContent = headerName;
         }
@@ -1236,21 +909,15 @@
         function enableChatInput() {
             const input = document.getElementById('message-input');
             const sendBtn = document.getElementById('send-btn');
-
             if (!input || !sendBtn) return;
-
             input.disabled = false;
             sendBtn.disabled = false;
-
-            // Remove old listeners by cloning
             const newInput = input.cloneNode(true);
             newInput.disabled = false;
             input.parentNode.replaceChild(newInput, input);
-
             const newSendBtn = sendBtn.cloneNode(true);
             newSendBtn.disabled = false;
             sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
-
             newSendBtn.onclick = sendMessage;
             newInput.onkeypress = (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -1263,54 +930,28 @@
 
         function sendMessage() {
             if (!currentChat) return;
-
             const input = document.getElementById('message-input');
             if (!input) return;
-            
             const content = input.value.trim();
-
             if (!content) return;
-
-            const message = {
-                id: 'msg_' + Date.now() + '_' + Math.random(),
-                senderId: currentUser.id,
-                senderName: currentUser.name,
-                content: content,
-                timestamp: new Date(),
-            };
-
+            const message = { id: 'msg_' + Date.now() + '_' + Math.random(), senderId: currentUser.id, senderName: currentUser.name, content: content, timestamp: new Date() };
             currentChat.messages.push(message);
             lastMessageCount = currentChat.messages.length;
-
             input.value = '';
-            
-            // Reset inactivity timer on message
             resetInactivityTimer(currentChat.id);
-            
             saveChatsToStorage();
             renderMessages();
             renderChats();
-
             localStorage.removeItem('nexus_typing');
             showNotification(`✅ Pesan terkirim`);
         }
 
         function handleTyping() {
             if (!currentChat) return;
-
-            const typingData = {
-                chatId: currentChat.id,
-                userId: currentUser.id,
-                userName: currentUser.name,
-                timestamp: Date.now()
-            };
-
+            const typingData = { chatId: currentChat.id, userId: currentUser.id, userName: currentUser.name, timestamp: Date.now() };
             localStorage.setItem('nexus_typing', JSON.stringify(typingData));
-
             if (typingTimeout) clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-                localStorage.removeItem('nexus_typing');
-            }, 2000);
+            typingTimeout = setTimeout(() => { localStorage.removeItem('nexus_typing'); }, 2000);
         }
 
         function loadChatsFromStorage() {
@@ -1319,10 +960,7 @@
                 try {
                     chats = JSON.parse(stored);
                     Object.keys(chats).forEach(chatId => {
-                        chats[chatId].messages.forEach(msg => {
-                            msg.timestamp = new Date(msg.timestamp);
-                        });
-                        // Initialize inactivity timer for each chat
+                        chats[chatId].messages.forEach(msg => { msg.timestamp = new Date(msg.timestamp); });
                         resetInactivityTimer(chatId);
                     });
                 } catch (e) {
@@ -1353,7 +991,6 @@
             toast.className = 'bg-brand-600 text-white px-6 py-3 rounded-lg shadow-lg animate-slide-in';
             toast.textContent = message;
             document.getElementById('toastContainer').appendChild(toast);
-
             setTimeout(() => {
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateX(20px)';
@@ -1362,7 +999,6 @@
             }, 3000);
         }
 
-        // ===== CHATBOT ========
         function toggleChatbot() {
             const chatbot = document.getElementById('nexus-chatbot');
             const button = document.getElementById('chatbot-toggle');
@@ -1381,41 +1017,20 @@
             const input = document.getElementById('chatbot-input');
             const message = input.value.trim();
             if (!message) return;
-
             const messagesDiv = document.getElementById('chatbot-messages');
-            
-            // Add user message
             const userMsg = document.createElement('div');
             userMsg.className = 'chatbot-message user-message';
-            userMsg.innerHTML = `
-                <div class="message-content">${escapeHtml(message)}</div>
-                <div class="message-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</div>
-            `;
+            userMsg.innerHTML = `<div class="message-content">${escapeHtml(message)}</div><div class="message-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</div>`;
             messagesDiv.appendChild(userMsg);
             input.value = '';
             input.focus();
-
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            // Simulate bot response
             setTimeout(() => {
                 const botMsg = document.createElement('div');
                 botMsg.className = 'chatbot-message bot-message animate-slide-in';
-                
-                const responses = [
-                    'Terima kasih atas pertanyaannya! 😊',
-                    'Saya akan membantu Anda dengan informasi produk. 🛍️',
-                    'Bagus sekali! Ada yang lain bisa saya bantu? 👍',
-                    'Silakan cek katalog produk kami yang lengkap. 📦',
-                    'Jika ada pertanyaan lebih lanjut, jangan ragu untuk tanya! 💬'
-                ];
-                
+                const responses = ['Terima kasih atas pertanyaannya! 😊', 'Saya akan membantu Anda dengan informasi produk. 🛍️', 'Bagus sekali! Ada yang lain bisa saya bantu? 👍', 'Silakan cek katalog produk kami yang lengkap. 📦', 'Jika ada pertanyaan lebih lanjut, jangan ragu untuk tanya! 💬'];
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                
-                botMsg.innerHTML = `
-                    <div class="message-content">${randomResponse}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</div>
-                `;
+                botMsg.innerHTML = `<div class="message-content">${randomResponse}</div><div class="message-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</div>`;
                 messagesDiv.appendChild(botMsg);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             }, 600);
@@ -1438,11 +1053,9 @@
             showNotification('Login system - Integrasi dengan sistem auth Anda');
         }
 
-        // ===== INITIALIZATION =====
         function initializeApp() {
             loadChatsFromStorage();
             renderProducts();
-
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 updateThemeIcon();
@@ -1451,59 +1064,39 @@
             }
         }
 
-        // ===== EVENT LISTENERS =====
-        // Close chat modal when clicking outside
         document.addEventListener('click', function(event) {
             const chatModal = document.getElementById('chat-modal');
-            const chatOverlay = chatModal?.querySelector('.bg-slate-900');
-            
-            if (event.target === chatModal) {
-                closeChat();
-            }
-        });
-
-        // Close settings modal when clicking outside
-        document.addEventListener('click', function(event) {
+            const variantsModal = document.getElementById('variants-modal');
             const settingsModal = document.getElementById('chat-settings-modal');
-            if (event.target === settingsModal) {
-                closeChatSettings();
-            }
+            if (event.target === chatModal) closeChat();
+            if (event.target === variantsModal) closeVariantsModal();
+            if (event.target === settingsModal) closeChatSettings();
         });
 
-        // Prevent closing when clicking inside modals
-        document.getElementById('chat-modal')?.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
+        document.getElementById('chat-modal')?.addEventListener('click', function(e) { e.stopPropagation(); });
+        document.getElementById('variants-modal')?.addEventListener('click', function(e) { if (e.target !== this) e.stopPropagation(); });
+        document.getElementById('chat-settings-modal')?.addEventListener('click', function(e) { if (e.target !== this) e.stopPropagation(); });
 
-        document.getElementById('chat-settings-modal')?.addEventListener('click', function(e) {
-            if (e.target !== this) {
-                e.stopPropagation();
-            }
-        });
-
-        // Listen for storage changes from other tabs
         window.addEventListener('storage', function(e) {
             if (e.key === 'nexus_chats') {
                 loadChatsFromStorage();
                 renderChats();
-                if (currentChat && chats[currentChat.id]) {
-                    renderMessages();
-                }
+                if (currentChat && chats[currentChat.id]) renderMessages();
             }
         });
 
-        // Initialize app when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeApp);
         } else {
             initializeApp();
         }
 
-        // Log initialization
         console.log('%c✅ NEXUS RETAIL LOADED', 'color: #4f46e5; font-size: 16px; font-weight: bold;');
-        console.log('%cFitur yang tersedia:', 'color: #4f46e5; font-weight: bold;');
-        console.log('✅ Add to Cart (Berulang kali tanpa refresh)');
-        console.log('✅ Live Chat Real-time');
+        console.log('%c🎉 Semua Fitur Aktif:', 'color: #4f46e5; font-weight: bold;');
+        console.log('✅ Add to Cart (Berulang tanpa refresh)');
+        console.log('✅ Live Chat Real-time dengan Product Variants');
+        console.log('✅ Penjual bisa memberikan opsi produk (dengan scroll)');
+        console.log('✅ Pembeli bisa memilih varian produk');
         console.log('✅ Delete Chat (dari kedua sisi)');
         console.log('✅ Auto-delete Chat (5 menit default)');
         console.log('✅ Chat Settings (dapat diubah saat runtime)');
@@ -1511,9 +1104,8 @@
         console.log('✅ Dark Mode Support');
         console.log('✅ Chatbot Assistant');
         console.log('✅ Cart Management');
-        console.log('%cSelamat menggunakan! 🚀', 'color: #4f46e5; font-size: 14px; font-weight: bold;');
+        console.log('%c🚀 Selamat menggunakan!', 'color: #4f46e5; font-size: 14px; font-weight: bold;');
     </script>
 
 </body>
-
 </html>
