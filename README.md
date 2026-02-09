@@ -49,16 +49,19 @@
 - ✅ Email validation (@user, @seller)
 - ✅ Password requirements (min 6 chars)
 
-### 💬 Real-Time Chat System
-- ✅ One buyer - Many sellers architecture
-- ✅ Per-product chat rooms
-- ✅ Real-time messaging
-- ✅ Independent chat sessions
-- ✅ Message history persistence
-- ✅ Sender role indication (Buyer/Seller)
-- ✅ Timestamp tracking
-- ✅ Read/Unread status
-- ✅ Beautiful chat UI with animations
+### 💬 Real-Time Live Chat System ⭐ NEW!
+- ✅ **Live messaging** - Instant sync tanpa refresh
+- ✅ **Multi-tab support** - Sinkronisasi otomatis antar tab browser
+- ✅ **Role switcher** - Toggle antara Pembeli/Penjual untuk demo
+- ✅ **Typing indicator** - Lihat saat lawan bicara sedang mengetik
+- ✅ **Sound notification** - Alert suara untuk pesan baru
+- ✅ **Chat badge** - Counter notifikasi pesan
+- ✅ **Message persistence** - Chat tersimpan di localStorage
+- ✅ **Auto-scroll** - Scroll otomatis ke pesan terbaru
+- ✅ **Storage events** - Real-time sync menggunakan browser API
+- ✅ **Polling fallback** - Update setiap 1 detik
+- ✅ **Beautiful UI** - Animasi smooth dengan dark mode
+- 📖 **[Baca panduan lengkap →](LIVE-CHAT-GUIDE.md)**
 
 ### ⏰ Auto-Reset Chat (5 Minutes)
 - ✅ Inactivity detection
