@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nexus Retail - Premium E-Commerce with Live Chat">
+    <title>Nexus Retail | E-Commerce & Live Chat</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f5f7ff', 100: '#ebf0ff', 600: '#4f46e5', 700: '#4338ca' },
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        .animate-slide-in { animation: slideIn 0.3s ease-out forwards; }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        .chat-bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.4;
+            font-size: 14px;
+            max-width: 75%;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .chat-bubble.own {
+            background: #2563eb;
+            color: white;
+            border-radius: 18px 4px 18px 18px;
+            margin-left: auto;
+        }
+
+        .chat-bubble.other {
+            background: white;
+            color: #1f2937;
+            border-radius: 4px 18px 18px 18px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dark .chat-bubble.other {
+            background: #374151;
+            color: #f3f4f6;
+            border-color: #4b5563;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-radius: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200') center/cover;
+            opacity: 0.3;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #seller-options-panel {
+            scrollbar-width: thin;
+            scrollbar-color: #93c5fd #dbeafe;
+        }
+
+        #seller-options-panel::-webkit-scrollbar { width: 6px; }
+        #seller-options-panel::-webkit-scrollbar-track { background: #dbeafe; border-radius: 3px; }
+        #seller-options-panel::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 3px; }
+        #seller-options-panel::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+        .dark #seller-options-panel::-webkit-scrollbar-track { background: #1e3a8a; }
+        .dark #seller-options-panel::-webkit-scrollbar-thumb { background: #3b82f6; }
+
+        @media (max-width: 768px) {
+            .hero-section { padding: 2rem 1.5rem !important; }
+            #nexus-chatbot {
+                width: calc(100vw - 40px) !important;
+                height: calc(100vh - 140px) !important;
+                bottom: 80px !important;
+                right: 20px !important;
+                left: 20px !important;
+            }
+        }
+
+        .chatbot-widget { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+        .chatbot-button {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: none; color: white; font-size: 24px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .chatbot-button:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5); }
+        .chatbot-button.active { display: none; }
+
+        #nexus-chatbot {
+            position: fixed; bottom: 100px; right: 20px;
+            width: 400px; max-width: calc(100vw - 40px);
+            height: 600px; max-height: calc(100vh - 140px);
+            background: white; border-radius: 16px;
+            box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s ease; overflow: hidden; z-index: 999;
+        }
+        .dark #nexus-chatbot { background: #1e293b; color: #f1f5f9; }
+        #nexus-chatbot.chatbot-open { opacity: 1; visibility: visible; transform: scale(1) translateY(0); }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white; padding: 20px; border-radius: 16px 16px 0 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .chatbot-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
+        .chatbot-header-actions { display: flex; gap: 10px; }
+        .chatbot-header-btn {
+            background: rgba(255, 255, 255, 0.2); border: none; color: white;
+            width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+            font-size: 16px; transition: background 0.2s;
+        }
+        .chatbot-header-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+        #chatbot-messages {
+            flex: 1; overflow-y: auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 12px;
+            background: #f8fafc;
+        }
+        .dark #chatbot-messages { background: #0f172a; }
+
+        .chatbot-message { display: flex; animation: slideUp 0.3s ease-out; }
+        .user-message { justify-content: flex-end; }
+        .bot-message { justify-content: flex-start; }
+
+        .message-content {
+            max-width: 75%; padding: 12px 16px; border-radius: 12px;
+            word-wrap: break-word; line-height: 1.4; font-size: 14px;
+        }
+        .user-message .message-content {
+            background: #4f46e5; color: white; border-radius: 12px 4px 12px 12px;
+        }
+        .bot-message .message-content {
+            background: white; color: #1e293b; border: 1px solid #e2e8f0;
+            border-radius: 4px 12px 12px 12px;
+        }
+        .dark .bot-message .message-content { background: #334155; color: #f1f5f9; border-color: #475569; }
+        .message-time { font-size: 11px; color: #94a3b8; margin-top: 4px; padding: 0 4px; }
+
+        .chatbot-input-area {
+            border-top: 1px solid #e2e8f0; padding: 12px; background: white;
+            display: flex; gap: 8px; align-items: flex-end;
+        }
+        .dark .chatbot-input-area { background: #1e293b; border-color: #334155; }
+
+        #chatbot-input {
+            flex: 1; border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 10px 12px; font-size: 14px; font-family: inherit;
+            resize: none; max-height: 100px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .dark #chatbot-input { background: #334155; color: #f1f5f9; border-color: #475569; }
+        #chatbot-input:focus { border-color: #4f46e5; }
+
+        .chatbot-send-btn {
+            background: #4f46e5; border: none; color: white;
+            width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+            font-size: 16px; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .chatbot-send-btn:hover { background: #4338ca; }
+        .chatbot-send-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    </style>
+</head>
+
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-900 dark:text-slate-100 transition-colors duration-300 font-sans">
+
+    <nav class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-dark-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+                    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-600/30">
+                        <i class="fa-solid fa-bolt text-white text-xl"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-violet-600">NEXUS</span>
+                </div>
+
+                <div class="hidden lg:flex flex-1 max-w-xl mx-12">
+                    <div class="relative w-full group">
+                        <input type="text" id="searchInput" placeholder="Cari barang impian Anda..."
+                            class="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 dark:border-dark-border dark:bg-slate-800 focus:ring-2 focus:ring-brand-600 transition-all outline-none text-sm">
+                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-600 transition-colors"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 sm:gap-6">
+                    <button onclick="toggleTheme()" class="p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                    </button>
+
+                    <button onclick="toggleCart()" class="relative group p-2.5">
+                        <i class="fa-solid fa-bag-shopping text-xl group-hover:text-brand-600 transition-colors"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 h-5 w-5 bg-brand-600 border-2 border-white dark:border-dark-bg rounded-full text-[10px] font-bold text-white flex items-center justify-center hidden animate-pulse">0</span>
+                    </button>
+
+                    <div class="flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <i class="fa-solid fa-user text-sm text-gray-600 dark:text-gray-400"></i>
+                        <span class="text-sm font-medium" id="current-role">Pembeli</span>
+                        <button id="role-toggle" class="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition text-xs" onclick="toggleRole()">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </div>
+
+                    <div id="auth-container">
+                        <button onclick="renderLoginModal()" class="px-6 py-2.5 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700 transition">
+                            <i class="fa-solid fa-sign-in-alt mr-2"></i>Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="cartDrawer" class="fixed inset-0 z-[60] pointer-events-none">
+        <div id="cartOverlay" onclick="toggleCart()" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+        <div id="cartContent" class="absolute right-0 top-0 h-full w-full max-w-md bg-white dark:bg-dark-card shadow-2xl translate-x-full transition-transform duration-500 pointer-events-auto flex flex-col">
+            <div class="p-6 border-b dark:border-dark-border flex justify-between items-center">
+                <h3 class="text-xl font-bold">Keranjang Belanja</h3>
+                <button onclick="toggleCart()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <p class="text-center text-slate-500">Keranjang kosong</p>
+            </div>
+            <div class="p-6 border-t dark:border-dark-border space-y-4">
+                <div class="flex justify-between items-center text-sm font-semibold text-slate-600 dark:text-slate-400">
+                    <span>Total Item: <span id="totalItemCount" class="font-bold text-brand-600">0</span></span>
+                </div>
+                <div class="flex justify-between items-center text-xl font-extrabold">
+                    <span>Subtotal:</span>
+                    <span id="cartTotalPrice">IDR 0</span>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="clearAllCart()" class="flex-1 py-3 rounded-2xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-bold hover:bg-red-100 dark:hover:bg-red-900/30 transition border border-red-200 dark:border-red-800">
+                        <i class="fa-solid fa-trash-alt mr-2"></i>Kosongkan
+                    </button>
+                    <button onclick="proceedCheckout()" class="flex-1 py-3 rounded-2xl bg-brand-600 text-white font-bold hover:bg-brand-700 transition">
+                        Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section class="hero-section relative rounded-[2rem] overflow-hidden mb-12 bg-slate-900 text-white py-16 px-10">
+            <div class="relative z-10 max-w-2xl">
+                <h2 class="text-5xl font-extrabold mb-4">Eksplorasi Gaya Baru</h2>
+                <p class="text-slate-300 text-lg mb-8">Koleksi gadget dan fashion premium dengan chat langsung ke penjual.</p>
+                <button class="bg-brand-600 hover:bg-brand-700 px-8 py-4 rounded-2xl font-bold transition">Lihat Promo</button>
+            </div>
+        </section>
+
+        <div class="mb-10">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Kategori Produk</h3>
+            <div class="flex flex-wrap gap-3" id="categoryTabs">
+                <button onclick="filterCategory(event)" data-category="All" class="cat-btn active px-6 py-3 rounded-2xl bg-brand-600 text-white font-semibold transition-all shadow-lg shadow-brand-600/20">Semua</button>
+                <button onclick="filterCategory(event)" data-category="Tas" class="cat-btn px-6 py-3 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border font-semibold hover:border-brand-600 transition-all">Tas</button>
+                <button onclick="filterCategory(event)" data-category="Sepatu" class="cat-btn px-6 py-3 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border font-semibold hover:border-brand-600 transition-all">Sepatu</button>
+                <button onclick="filterCategory(event)" data-category="Jam Tangan" class="cat-btn px-6 py-3 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border font-semibold hover:border-brand-600 transition-all">Jam Tangan</button>
+                <button onclick="filterCategory(event)" data-category="Laptop" class="cat-btn px-6 py-3 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border font-semibold hover:border-brand-600 transition-all">Laptop</button>
+                <button onclick="filterCategory(event)" data-category="Handphone" class="cat-btn px-6 py-3 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border font-semibold hover:border-brand-600 transition-all">Handphone</button>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h3 class="text-2xl font-bold" id="categoryTitle">Semua Produk</h3>
+                <p class="text-slate-500 text-sm">Menampilkan koleksi terbaik untuk Anda</p>
+            </div>
+            <div class="flex items-center gap-3 bg-white dark:bg-dark-card p-1.5 rounded-2xl shadow-sm border border-slate-200 dark:border-dark-border">
+                <span class="text-[10px] font-bold text-slate-400 ml-3 uppercase tracking-tighter">Urutkan</span>
+                <select id="sortSelect" onchange="renderProducts()" class="bg-transparent py-2 px-4 rounded-xl text-sm font-bold focus:outline-none cursor-pointer dark:bg-dark-card dark:text-slate-100">
+                    <option value="default">Default (A-Z)</option>
+                    <option value="newest">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                    <option value="price_asc">Termurah</option>
+                    <option value="price_desc">Termahal</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </main>
+
+    <footer class="bg-white dark:bg-dark-card border-t border-slate-200 dark:border-dark-border mt-20 py-12 text-center">
+        <p class="text-slate-500 font-medium">&copy; 2026 Nexus Retail Group. All Rights Reserved.</p>
+    </footer>
+
+    <div id="chat-modal" class="hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] flex flex-col overflow-hidden">
+            <div class="flex justify-end p-4 border-b dark:border-dark-border">
+                <button onclick="closeChat()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-1 overflow-hidden gap-6 p-6">
+                <div class="w-80 bg-slate-50 dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-dark-border overflow-hidden flex flex-col">
+                    <div class="p-4 border-b dark:border-dark-border flex justify-between items-center">
+                        <h2 class="font-bold text-lg">Pesan</h2>
+                        <button onclick="openChatSettings()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition text-sm" title="Chat Settings">
+                            <i class="fa-solid fa-cog"></i>
+                        </button>
+                    </div>
+                    <div id="chat-list" class="flex-1 overflow-y-auto">
+                        <p class="p-4 text-center text-slate-500">Belum ada chat</p>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-slate-50 dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-dark-border overflow-hidden flex flex-col">
+                    <div id="chat-header" class="p-4 border-b dark:border-dark-border flex items-center justify-between bg-white dark:bg-dark-card">
+                        <div>
+                            <h3 id="chat-name" class="font-bold text-lg">Pilih chat</h3>
+                            <p id="chat-status" class="text-sm text-slate-500">
+                                <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2"></span>Online
+                            </p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="delete-chat-btn" onclick="deleteCurrentChat()" class="hidden p-2 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 rounded-lg transition" title="Hapus Chat">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-white dark:bg-dark-card">
+                        <p class="text-center text-slate-500">Pilih chat untuk mulai pesan</p>
+                    </div>
+
+                    <div id="typing-indicator" class="px-6 py-2 bg-white dark:bg-dark-card hidden">
+                        <div class="flex items-center gap-2 text-sm text-slate-500">
+                            <div class="flex gap-1">
+                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                                <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+                            </div>
+                            <span id="typing-text">sedang mengetik...</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t dark:border-dark-border bg-white dark:bg-dark-card">
+                        <div id="seller-options-panel" class="hidden max-h-[300px] overflow-y-auto space-y-3 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mb-3">
+                            <div class="flex justify-between items-center sticky top-0 bg-blue-50 dark:bg-blue-900/20 pb-2 border-b border-blue-200 dark:border-blue-700 z-10">
+                                <label class="text-sm font-bold">Berikan Opsi Produk</label>
+                                <button onclick="closeSellersOptions()" class="text-xs p-1.5 hover:bg-blue-100 dark:hover:bg-blue-900 rounded transition">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div id="seller-options-container" class="space-y-3 pt-2"></div>
+                            <button onclick="sendSellerOptions()" class="w-full py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition sticky bottom-0">
+                                <i class="fa-solid fa-paper-plane mr-2"></i>Kirim Opsi Produk
+                            </button>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <input type="text" id="message-input" placeholder="Ketik pesan..."
+                                class="flex-1 px-4 py-3 border border-slate-200 dark:border-dark-border dark:bg-slate-700 dark:text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600"
+                                disabled>
+                            <button id="send-btn"
+                                class="px-6 py-3 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition disabled:opacity-50"
+                                disabled>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                            <button id="add-options-btn" onclick="showSellerOptions()" class="hidden px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition" title="Tambah Opsi Produk">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="variants-modal" class="modal-overlay">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-md p-6 animate-slide-up max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Pilih Varian Produk</h2>
+                <button onclick="closeVariantsModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="variants-content" class="space-y-6"></div>
+            <div class="mt-6 flex gap-3">
+                <button onclick="closeVariantsModal()" class="flex-1 py-3 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                    Batal
+                </button>
+                <button onclick="sendVariantSelection()" class="flex-1 py-3 rounded-lg bg-brand-600 text-white font-bold hover:bg-brand-700 transition">
+                    Tanyakan Ke Penjual
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-settings-modal" class="modal-overlay">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full max-w-md p-8 animate-slide-up">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Pengaturan Chat</h2>
+                <button onclick="closeChatSettings()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold mb-3">Waktu Auto-Delete Chat (menit)</label>
+                    <div class="flex items-center gap-3">
+                        <input type="range" id="auto-delete-slider" min="1" max="30" value="5"
+                            class="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-lg cursor-pointer"
+                            oninput="updateAutoDeleteValue(this.value)">
+                        <span id="auto-delete-value" class="font-bold text-brand-600 min-w-[3rem] text-right">5</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">Riwayat chat akan dihapus jika tidak ada aktivitas selama waktu yang ditentukan</p>
+                </div>
+                <div>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" id="enable-auto-delete" checked class="w-5 h-5 rounded cursor-pointer" onchange="toggleAutoDelete()">
+                        <span class="font-medium">Aktifkan Auto-Delete</span>
+                    </label>
+                </div>
+                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                    <p class="text-sm text-blue-800 dark:text-blue-200">
+                        <i class="fa-solid fa-info-circle mr-2"></i>
+                        Pengaturan ini akan <strong>direset</strong> saat halaman di-refresh
+                    </p>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button onclick="resetChatSettings()" class="flex-1 py-3 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                        Reset ke Default
+                    </button>
+                    <button onclick="closeChatSettings()" class="flex-1 py-3 rounded-lg bg-brand-600 text-white font-bold hover:bg-brand-700 transition">
+                        Simpan & Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 max-w-xs"></div>
+
+    <div class="chatbot-widget">
+        <button class="chatbot-button" id="chatbot-toggle" onclick="toggleChatbot()" title="Chat with Nexus Assistant">💬</button>
+        <div id="nexus-chatbot">
+            <div class="chatbot-header">
+                <div>
+                    <h3>🤖 Nexus Assistant</h3>
+                    <small style="font-size: 11px; opacity: 0.8;">Online</small>
+                </div>
+                <div class="chatbot-header-actions">
+                    <button class="chatbot-header-btn" onclick="clearChatbotHistory()" title="Clear history">🗑️</button>
+                    <button class="chatbot-header-btn" onclick="toggleChatbot()" title="Close">✕</button>
+                </div>
+            </div>
+            <div id="chatbot-messages"></div>
+            <div class="chatbot-input-area">
+                <input type="text" id="chatbot-input" placeholder="Tanya tentang produk..." onkeypress="handleChatbotKeypress(event)">
+                <button class="chatbot-send-btn" onclick="sendChatbotMessage()" title="Send">➤</button>
+            </div>
+        </div>
+    </div>
+
+<!-- ============================================================
+     SCRIPT SAJA - ENHANCED SELLER RECOMMENDATION
+     Copy-paste bagian ini ke dalam index.html
+     ============================================================ -->
+
+<script>
+// ===== ENHANCED SELLER RECOMMENDATION SYSTEM =====
+
+/**
+ * Render product recommendation card dengan gambar dan varian
+ * @param {Object} msg - Message object dari seller
+ * @param {boolean} isOwnMessage - Apakah pesan dari user sendiri
+ */
+function renderRecommendationCard(msg, isOwnMessage) {
+    if (!msg.productData) return '';
+
+    const product = msg.productData;
+    const cardId = `rec-card-${msg.id}`;
+    
+    // Build variants dropdown HTML
+    let variantsHTML = '';
+    if (product.variants && Object.keys(product.variants).length > 0) {
+        variantsHTML = '<div class="variants-section">';
+        
+        Object.entries(product.variants).forEach(([variantType, options]) => {
+            const selectId = `${cardId}-${variantType}`;
+            variantsHTML += `
+                <div class="variant-group">
+                    <label for="${selectId}" class="variant-label">
+                        ${variantType}
+                        <span style="color: #ef4444;">*</span>
+                    </label>
+                    <select id="${selectId}" class="variant-select" data-variant-type="${variantType}">
+                        <option value="">-- Pilih ${variantType} --</option>
+                        ${options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        });
+        
+        variantsHTML += '</div>';
+    }
+
+    // Build recommendation card HTML
+    const cardHTML = `
+        <div class="recommendation-card" id="${cardId}">
+            <!-- Header dengan seller name -->
+            <div style="padding: 12px 16px; background: #f0f9ff; dark:background: #0f172a; border-bottom: 1px solid #e0e7ff; dark:border-bottom-color: #1e293b;">
+                <span class="seller-name-badge">
+                    <i class="fa-solid fa-star" style="color: #f59e0b;"></i>
+                    REKOMENDASI DARI ${msg.senderName.toUpperCase()}
+                </span>
+                ${msg.content ? `
+                    <div class="recommendation-message" style="margin-top: 8px;">
+                        <div class="recommendation-message-text">${escapeHtml(msg.content)}</div>
+                    </div>
+                ` : ''}
+            </div>
+
+            <!-- Product Image -->
+            <div class="product-image-container">
+                <div class="recommendation-badge">⭐ REKOMENDASI</div>
+                <img src="${product.image}" alt="${product.name}" 
+                    onerror="this.src='https://via.placeholder.com/300x300?text=${encodeURIComponent(product.name)}'">
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <!-- Product Name -->
+                <div class="product-name">${escapeHtml(product.name)}</div>
+
+                <!-- Seller -->
+                <div class="product-seller">
+                    <i class="fa-solid fa-store" style="color: #6b7280;"></i>
+                    Oleh: ${escapeHtml(product.seller || 'Penjual')}
+                </div>
+
+                <!-- Price -->
+                <div class="product-price">
+                    <span class="price-icon">💰</span>
+                    IDR ${product.price.toLocaleString('id-ID')}
+                </div>
+
+                <!-- Variants -->
+                ${variantsHTML}
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-add-cart" onclick="addRecommendedProductToCart('${cardId}', ${product.id})">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Keranjang
+                    </button>
+                    <button class="btn-ask-seller" onclick="scrollToChat()">
+                        <i class="fa-solid fa-comments"></i>
+                        Tanya
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return cardHTML;
+}
+
+/**
+ * Escape HTML untuk security
+ */
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+/**
+ * Add recommended product to cart
+ * @param {string} cardId - Card element ID
+ * @param {number} productId - Product ID
+ */
+function addRecommendedProductToCart(cardId, productId) {
+    const product = products.find(p => p.id == productId);
+    if (!product) {
+        showNotification('❌ Produk tidak ditemukan');
+        return;
+    }
+
+    // Get selected variants from dropdowns
+    const selectedVariants = {};
+    let allVariantsSelected = true;
+    let missingVariants = [];
+
+    if (product.variants && Object.keys(product.variants).length > 0) {
+        Object.keys(product.variants).forEach(variantType => {
+            const selectElement = document.querySelector(`#${cardId}-${variantType}`);
+            if (selectElement) {
+                const selectedValue = selectElement.value;
+                if (!selectedValue) {
+                    allVariantsSelected = false;
+                    missingVariants.push(variantType);
+                } else {
+                    selectedVariants[variantType] = selectedValue;
+                }
+            }
+        });
+    }
+
+    // Validation
+    if (!allVariantsSelected) {
+        showNotification(`❌ Pilih ${missingVariants.join(', ')} terlebih dahulu`);
+        // Highlight missing fields
+        missingVariants.forEach(variant => {
+            const selectElement = document.querySelector(`#${cardId}-${variant}`);
+            if (selectElement) {
+                selectElement.style.borderColor = '#ef4444';
+                selectElement.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                setTimeout(() => {
+                    selectElement.style.borderColor = '';
+                    selectElement.style.boxShadow = '';
+                }, 2000);
+            }
+        });
+        return;
+    }
+
+    // Create cart item
+    const cartItem = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        seller: product.seller,
+        quantity: 1,
+        variants: selectedVariants,
+        addedAt: new Date().toISOString(),
+        source: 'seller-recommendation'
+    };
+
+    // Add to cart
+    if (!window.cart) window.cart = [];
+
+    // Check if item already exists with same variants
+    const existingItemIndex = window.cart.findIndex(item =>
+        item.id === cartItem.id &&
+        JSON.stringify(item.variants || {}) === JSON.stringify(cartItem.variants || {})
+    );
+
+    if (existingItemIndex > -1) {
+        // Update quantity
+        window.cart[existingItemIndex].quantity += 1;
+        showNotification(`✅ Kuantitas diperbarui! (Total: ${window.cart[existingItemIndex].quantity})`);
+    } else {
+        // Add new item
+        window.cart.push(cartItem);
+        showNotification(`✅ ${product.name} ditambahkan ke keranjang!`);
+    }
+
+    // Save to storage
+    saveCartToStorage();
+
+    // Update cart UI
+    updateCartUI();
+
+    // Animate button
+    const btn = event.target.closest('.btn-add-cart');
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-check" style="color: #10b981;"></i> Ditambahkan!';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Keranjang';
+            btn.style.background = '';
+        }, 2000);
+    }
+}
+
+/**
+ * Save cart to localStorage
+ */
+function saveCartToStorage() {
+    try {
+        localStorage.setItem('nexus_cart', JSON.stringify(window.cart || []));
+    } catch (e) {
+        console.error('Error saving cart:', e);
+    }
+}
+
+/**
+ * Load cart from localStorage
+ */
+function loadCartFromStorage() {
+    try {
+        const saved = localStorage.getItem('nexus_cart');
+        if (saved) {
+            window.cart = JSON.parse(saved);
+        } else {
+            window.cart = [];
+        }
+    } catch (e) {
+        console.error('Error loading cart:', e);
+        window.cart = [];
+    }
+}
+
+/**
+ * Update cart UI (update badge count, total, etc)
+ */
+function updateCartUI() {
+    // Update cart count badge
+    const cartBadge = document.getElementById('cart-badge');
+    const totalItems = (window.cart || []).reduce((sum, item) => sum + item.quantity, 0);
+    
+    if (cartBadge) {
+        cartBadge.textContent = totalItems;
+        cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+    }
+
+    // Update total price
+    const cartTotal = (window.cart || []).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalElement = document.getElementById('cart-total');
+    if (totalElement) {
+        totalElement.textContent = `IDR ${cartTotal.toLocaleString('id-ID')}`;
+    }
+}
+
+/**
+ * Scroll to chat section
+ */
+function scrollToChat() {
+    const chatSection = document.getElementById('chat-messages');
+    if (chatSection) {
+        chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Focus input
+        setTimeout(() => {
+            const input = document.getElementById('message-input');
+            if (input) input.focus();
+        }, 500);
+    }
+}
+
+/**
+ * Show notification
+ */
+function showNotification(message, duration = 3000) {
+    // Create notification element if not exists
+    let notifContainer = document.getElementById('notification-container');
+    if (!notifContainer) {
+        notifContainer = document.createElement('div');
+        notifContainer.id = 'notification-container';
+        notifContainer.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+        `;
+        document.body.appendChild(notifContainer);
+    }
+
+    // Create notification
+    const notif = document.createElement('div');
+    notif.className = 'glass rounded-lg p-4 shadow-lg animate-slide-in';
+    notif.style.cssText = `
+        background: rgba(255, 255, 255, 0.95);
+        color: #1f2937;
+        font-weight: 600;
+        font-size: 14px;
+        animation: slideIn 0.3s ease-out;
+    `;
+    notif.textContent = message;
+
+    notifContainer.appendChild(notif);
+
+    // Remove after duration
+    setTimeout(() => {
+        notif.style.opacity = '0';
+        notif.style.transform = 'translateY(-10px)';
+        notif.style.transition = 'all 0.3s ease-out';
+        setTimeout(() => notif.remove(), 300);
+    }, duration);
+}
+
+/**
+ * Initialize cart on page load
+ */
+window.addEventListener('DOMContentLoaded', () => {
+    loadCartFromStorage();
+    updateCartUI();
+});
+
+/**
+ * Override renderMessages untuk display recommendation card
+ */
+const originalRenderMessages = window.renderMessages;
+window.renderMessages = function() {
+    if (!currentChat) return;
+
+    const messagesDiv = document.getElementById('chat-messages');
+    if (!messagesDiv) return;
+
+    const messageElements = currentChat.messages.map(msg => {
+        const isOwnMessage = msg.senderId === currentUser.id;
+        const timestamp = new Date(msg.timestamp).toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        let messageHTML = '';
+
+        // Seller Recommendation dengan product card
+        if (msg.type === 'seller-recommendation' && msg.productData) {
+            const cardHTML = renderRecommendationCard(msg, isOwnMessage);
+            messageHTML = `
+                <div class="flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4 animate-slide-in">
+                    <div class="max-w-2xl w-full">
+                        ${cardHTML}
+                    </div>
+                </div>
+            `;
+        }
+        // Stock notification
+        else if (msg.type === 'stock-notification' && msg.productData) {
+            let stockHTML = '';
+            if (msg.productData.selectedStocks) {
+                stockHTML = '<div class="space-y-1">';
+                msg.productData.selectedStocks.forEach(stock => {
+                    stockHTML += `<p class="text-sm">✓ <strong>${stock.variant}:</strong> ${stock.option}</p>`;
+                });
+                stockHTML += '</div>';
+            }
+
+            messageHTML = `
+                <div class="flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4 animate-slide-in">
+                    <div class="chat-bubble ${isOwnMessage ? 'own' : 'other'}">
+                        ${!isOwnMessage ? `<p class="text-xs font-bold mb-1">${msg.senderName}</p>` : ''}
+                        ${stockHTML}
+                        <p class="text-xs ${isOwnMessage ? 'text-blue-200' : 'text-gray-500'} mt-2">${timestamp}</p>
+                    </div>
+                </div>
+            `;
+        }
+        // Regular message
+        else {
+            messageHTML = `
+                <div class="flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4 animate-slide-in">
+                    <div class="chat-bubble ${isOwnMessage ? 'own' : 'other'}">
+                        ${!isOwnMessage ? `<p class="text-xs font-bold mb-1">${msg.senderName}</p>` : ''}
+                        <p class="whitespace-pre-wrap break-words">${escapeHtml(msg.content)}</p>
+                        <p class="text-xs ${isOwnMessage ? 'text-blue-200' : 'text-gray-500'} mt-2">${timestamp}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        return messageHTML;
+    }).join('');
+
+    messagesDiv.innerHTML = messageElements || '<p class="text-center text-gray-500">Belum ada pesan</p>';
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+};
+
+/**
+ * Enhanced sendSellerRecommendation untuk include product data
+ */
+window.sendSellerRecommendationEnhanced = function() {
+    if (!currentChat || currentUser.role !== 'seller') {
+        showNotification('❌ Hanya penjual yang bisa memberikan rekomendasi');
+        return;
+    }
+
+    const product = products.find(p => p.id == currentChat.productId);
+    if (!product) return;
+
+    const recommendation = document.getElementById('seller-recommendation')?.value.trim();
+    if (!recommendation) {
+        showNotification('❌ Tulis pesan rekomendasi terlebih dahulu');
+        return;
+    }
+
+    // Create message with product data
+    const messageContent = {
+        id: 'msg_' + Date.now() + '_' + Math.random(),
+        senderId: currentUser.id,
+        senderName: currentUser.name,
+        content: recommendation,
+        timestamp: new Date(),
+        type: 'seller-recommendation',
+        productData: {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            seller: product.seller,
+            variants: product.variants || {}
+        }
+    };
+
+    currentChat.messages.push(messageContent);
+    saveChatsToStorage();
+    renderMessages();
+    renderChats();
+    closeVariantsModal();
+
+    showNotification('✅ Rekomendasi terkirim ke pembeli!');
+};
+
+console.log('✅ Enhanced Seller Recommendation System Loaded');
+</script>
+
+</body>
+</html>
